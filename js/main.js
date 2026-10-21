@@ -64,16 +64,24 @@ function onScroll() {
   const y = scrollY;
   body.classList.toggle('scrolled', y > 80);
   if (!reduce && y < innerHeight * 1.2) heroTower.style.setProperty('--py', `${y * 0.18}px`);
+  updateActive();
   ticking = false;
 }
 addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
-onScroll();
+addEventListener('resize', updateActive);
 
 const links = [...document.querySelectorAll('[data-link]')];
-const secObs = new IntersectionObserver(es => es.forEach(e => {
-  if (e.isIntersecting) links.forEach(a => a.classList.toggle('on', a.dataset.link === e.target.id));
-}), { rootMargin: '-45% 0px -50% 0px' });
-document.querySelectorAll('[data-section]').forEach(s => secObs.observe(s));
+const sections = [...document.querySelectorAll('[data-section]')];
+let currentId = null;
+function updateActive() {
+  const line = innerHeight * .5;
+  let id = null;
+  sections.forEach(s => { if (s.getBoundingClientRect().top <= line) id = s.id; });
+  if (id === currentId) return;
+  currentId = id;
+  links.forEach(a => a.classList.toggle('on', a.dataset.link === id));
+}
+onScroll();
 
 /* ===== 등장 애니메이션 ===== */
 const revObs = new IntersectionObserver(es => es.forEach(e => {
