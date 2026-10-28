@@ -1,0 +1,30 @@
+/* ---------- 프로젝트 상세 페이지 (말모이) ---------- */
+.dt{max-width:1285px;margin:0 auto;padding:clamp(90px,10vw,140px) var(--pad) 80px}
+.dt__meta{font:600 14px var(--en);color:var(--mute);letter-spacing:.02em}
+.dt__hero h1{margin-top:8px;font:900 clamp(48px,9vw,120px)/1.05 var(--kr);letter-spacing:-.04em}
+.dt__lead{margin-top:16px;font:700 clamp(18px,2vw,26px)/1.5 var(--kr)}
+.dt__cover{margin-top:clamp(28px,4vw,56px);aspect-ratio:1285/723;background:var(--gray) url(../assets/p-malmoi.webp) center/cover no-repeat;border:1.5px solid var(--ink)}
+.dt__sec{margin-top:clamp(56px,8vw,110px)}
+.dt__sec>h2{display:flex;align-items:baseline;gap:14px;padding-bottom:14px;border-bottom:1.5px solid var(--ink);font:900 clamp(22px,2.6vw,34px)/1 var(--en);letter-spacing:-.02em}
+.dt__sec>h2 span{font:600 15px var(--en);color:var(--mute)}
+.dt__txt{margin-top:22px;max-width:760px;font:400 clamp(15px,1.5vw,18px)/1.8 var(--kr);color:#333;word-break:keep-all}
+.dt__info{margin-top:28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0}
+.dt__info div{padding:12px 0;border-bottom:1px solid #ddd}
+.dt__info dt{font:600 12px var(--en);letter-spacing:.1em;color:var(--mute)}
+.dt__info dd{margin-top:2px;font:500 16px/1.6 var(--kr)}
+.dt__three{margin-top:26px;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2vw,28px)}
+.dt__three article{padding:22px;border:1.5px solid var(--ink)}
+.dt__three h3{font:800 24px/1.2 var(--kr)}
+.dt__three h3 small{margin-left:8px;font:600 12px var(--en);letter-spacing:.1em;color:var(--mute)}
+.dt__three p{margin-top:12px;font:400 15px/1.75 var(--kr);color:#333;word-break:keep-all}
+.ts{margin-top:26px;padding:clamp(20px,3vw,34px);border:1.5px solid var(--ink)}
+.ts h3{font:800 clamp(18px,2vw,24px)/1.4 var(--kr)}
+.ts dl{margin-top:14px;border-top:1.5px solid var(--ink)}
+.ts dl>div{display:grid;grid-template-columns:130px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid #ddd;line-height:1.7}
+.ts dt{font-weight:700}
+.ts dd{color:#333;word-break:keep-all}
+.dt__foot{margin-top:clamp(56px,8vw,100px)}
+@media(max-width:720px){
+  .dt__three{grid-template-columns:1fr}
+  .ts dl>div{grid-template-columns:1fr;gap:2px}
+}
