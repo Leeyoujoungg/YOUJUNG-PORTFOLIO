@@ -34,106 +34,114 @@
   </nav>
 
   <main>
+    <!-- 이어지는 선: 파랑(위→아래) → 검정(꺾여 PROJECT까지) ┬ 노랑(검정에서 갈라짐). 좌표는 main.js가 계산 -->
+    <svg class="flow" aria-hidden="true">
+      <line id="flowBlue" stroke="#5BA8D8"/>
+      <line id="flowBlack" stroke="#111"/>
+      <line id="flowYellow" stroke="#f4e86d"/>
+    </svg>
     <!-- HOME -->
-    <section class="hero" id="home" data-section>
-      <div class="hero__tower" id="heroTower" data-tower data-stretch></div>
-
-      <div class="hero__bars" aria-hidden="true">
-        <svg class="hero__lines" viewBox="0 0 1935 965" preserveAspectRatio="none">
-          <line x1="14" y1="832" x2="727" y2="388" stroke="#7ab8e0"/>
-          <line x1="0" y1="699" x2="1098" y2="894" stroke="#0a0a0a"/>
-          <line x1="715" y1="901" x2="1935" y2="481" stroke="#f4e86d"/>
-          <line x1="1757" y1="0" x2="1662" y2="736" stroke="#7ab8e0"/>
-        </svg>
-        <svg class="hero__lines hero__lines--top" viewBox="0 0 1935 965" preserveAspectRatio="none">
-          <line x1="0" y1="207" x2="763" y2="473" stroke="#f0605d"/>
-        </svg>
+    <section class="hero2" id="home" data-section>
+      <div class="hero2__wrap">
+        <div class="hero2__main" id="heroMain">
+          <p class="hero2__eyebrow">DESIGN &amp; INTERACTION DEVELOPER</p>
+          <h1 class="hero2__title" aria-label="YOJG PORTFOLIO"><span>YOJG</span><span>PORTFOLiO</span></h1>
+          <p class="hero2__big">SMALL PROBLEM,<br>NEW POSSIBILITY</p>
+          <p class="hero2__kr">작은 문제에서 새로운 가능성을 찾는<br>이유정의 포트폴리오</p>
+          <div class="hero2__works">
+            <p>SELECTED WORK</p>
+            <ul>
+              <li><a href="#pj-malmoi" data-goto="pj-malmoi"><span class="hero2__thumb" style="background-image:url(assets/p-malmoi.webp)"></span><em>말모이</em></a></li>
+              <li><a href="#pj-div" data-goto="pj-div"><span class="hero2__thumb" style="background-image:url(assets/p-div.webp)"></span><em>DIV</em></a></li>
+              <li><a href="#pj-islife" data-goto="pj-islife"><span class="hero2__thumb" style="background-image:url(assets/p-islife.webp)"></span><em>Is Life</em></a></li>
+              <li><a href="#pj-dojagi" data-goto="pj-dojagi"><span class="hero2__thumb" style="background-image:url(assets/p-dojagi.webp)"></span><em>도자기</em></a></li>
+              <li><a href="#pj-thailand" data-goto="pj-thailand"><span class="hero2__thumb" style="background-image:url(assets/p-thailand.webp)"></span><em>Thailand</em></a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="hero2__tower" id="heroTower" data-tower aria-hidden="true"></div>
       </div>
-      <h1 class="hero__title" aria-label="YOJG PORTFOLIO">
-        <span class="cut cut--1">YOJG</span>
-        <span class="cut cut--2">PORT</span>
-        <span class="cut cut--3">FOLiO</span>
-      </h1>
-
-      <!-- 흰 사각으로 뚫린 창 -->
-      <figure class="window w1"><div data-tower data-slice data-view="148 -24 190 190"></div><figcaption>(HTML)</figcaption></figure>
-      <figure class="window w2"><div data-tower data-slice data-view="150 250 356 224"></div><figcaption>(CSS)</figcaption></figure>
-      <figure class="window w3"><div data-tower data-slice data-view="195 405 190 190"></div><figcaption>(JS)</figcaption></figure>
-      <figure class="window w4"><div data-tower data-slice data-view="143 540 338 240"></div><figcaption>(REACT)</figcaption></figure>
-      <div class="hero__text">
-        <p class="hero__sub"><br></p>
-        <p class="hero__big">SMALL PROBLEM,<br>NEW POSSIBILITY</p>
-        <p class="hero__kr">작은 문제에서<br>새로운 가능성을 찾는</p>
-      </div>
-      <p class="hero__label hero__label--bl">(web)</p>
-      <p class="hero__label hero__label--br">PORTFOLIO ↓</p>
+      <p class="hero2__scroll" aria-hidden="true">↓</p>
     </section>
 
     <!-- PROJECTS -->
-    <section class="projects" id="projects" data-section>
-      <div class="pframe">
-        <h2 class="pframe__title"><span>(01)</span>PROJECT</h2>
+    <section class="pshow" id="projects" data-section>
+      <i class="pshow__deco pshow__deco--bottom" aria-hidden="true"></i>
+      <div class="pshow__wrap">
+        <header class="pshow__head">
+          <h2 class="pshow__title"><span>(01)</span>PROJECT</h2>
+          <p class="pshow__count">05 WORKS</p>
+        </header>
 
-        <!-- 유니티 프로젝트를 숨기는 동안 영역 높이 2950 → 2745 (피그마 프로젝트 섹션_v.2 기준). 되살릴 때는 아래 주석 + .pframe 비율 + 카드 top 복원 -->
-        <svg class="pframe__lines" viewBox="0 0 1920 2745" preserveAspectRatio="none" aria-hidden="true">
-          <line x1="-30" y1="58" x2="1777" y2="1076"/>
-          <line x1="1845" y1="933" x2="0" y2="1717"/>
-          <line x1="14" y1="1674" x2="1894" y2="2004"/>
-          <line x1="1934" y1="1935" x2="0" y2="2460"/>
-          <!-- UNITY 용 선 (원래 viewBox 높이 2950 기준)
-          <line x1="564" y1="2888" x2="707" y2="2496"/>
-          <line x1="381" y1="2699" x2="685" y2="2822"/>
-          -->
-        </svg>
-
-        <h3 class="pframe__group" style="left:-1.25%;top:40.5%;text-align:right">SUB<br>PROJECTS</h3>
-        <!-- <h3 class="pframe__group" style="left:65.5%;top:83.8%">UNITY<br>PROJECTS</h3> -->
-
-        <!-- 메인 프로젝트 : 클릭하면 상세 페이지(malmoi.html)로 이동 -->
-        <article class="pcard pcard--main reveal" id="pj-malmoi" data-project="0" data-href="malmoi.html" tabindex="0" role="link" style="left:11.15%;top:6.3%;--w:77.71%;--ar:1492/760.44">
-          <div class="pcard__thumb"></div>
-          <div class="pcard__info"><h3>말모이 <em>8인 프로젝트 · 메인</em></h3><p>잊고 있던 감정 단어를 찾는 인터랙티브 체험형 리듬게임</p><small>기획 · 디자인 · 프로그래밍 · 2026.09 ~ 진행 중</small></div>
+        <!-- 대표 프로젝트 : 클릭하면 상세 페이지(malmoi.html)로 이동 -->
+        <article class="pitem pitem--main reveal" id="pj-malmoi" data-project="0" data-href="malmoi.html" tabindex="0" role="link">
+          <div class="pitem__media">
+            <div class="pitem__thumb"></div>
+            <span class="pitem__tag">01 / FEATURED PROJECT</span>
+          </div>
+          <div class="pitem__info">
+            <div class="pitem__meta"><span>01</span><span>INTERACTIVE GAME</span><i class="pitem__arrow" aria-hidden="true">↗</i></div>
+            <h3>말모이 <em>8인 프로젝트 · 메인</em></h3><p>잊고 있던 감정 단어를 찾는 인터랙티브 체험형 리듬게임</p><small>기획 · 디자인 · 프로그래밍 · 2026.09 ~ 진행 중</small>
+          </div>
         </article>
 
-        <!-- SUB PROJECTS -->
-        <article class="pcard reveal" id="pj-div" data-project="1" tabindex="0" role="button" style="left:2.6%;top:52.39%;--w:49.91%;--ar:958.23/455.07">
-          <div class="pcard__thumb"></div>
-          <div class="pcard__info"><h3>DIV <em>3인 프로젝트</em></h3><p>기부 이후 경험을 연결하는 기부 서비스 소개 웹사이트</p><small>웹 디자인 · 프로그래밍 · 2026.03 ~ 06</small></div>
-        </article>
-        <article class="pcard reveal" id="pj-islife" data-project="2" tabindex="0" role="button" style="left:60.1%;top:52.39%;--w:37.27%;--ar:715.58/455.07">
-          <div class="pcard__thumb"></div>
-          <div class="pcard__info"><h3>Is Life <em>1인 프로젝트</em></h3><p>경제적 불안정 삶을 체험하는 시리어스 게임</p><small>2026.05 ~ 06</small></div>
-        </article>
-        <article class="pcard reveal" id="pj-dojagi" data-project="3" tabindex="0" role="button" style="left:2.6%;top:78.2%;--w:37.29%;--ar:716/455.07">
-          <div class="pcard__thumb"></div>
-          <div class="pcard__info"><h3>도자기 <em>1인 프로젝트</em></h3><p>한국 전통 도자기를 소개하는 웹사이트</p><small>2026.05 ~ 06</small></div>
-        </article>
-        <article class="pcard reveal" id="pj-thailand" data-project="4" tabindex="0" role="button" style="left:47.5%;top:78.2%;--w:49.91%;--ar:958.23/455.07">
-          <div class="pcard__thumb"></div>
-          <div class="pcard__info"><h3>Thailand <em>1인 프로젝트</em></h3><p>태국 음식 문화를 소개하는 웹페이지 디자인</p><small>웹 디자인 · 2024.09 ~ 12</small></div>
-        </article>
-
-        <!-- UNITY PROJECTS (추후 추가 · 임시 숨김, 원래 top 값 유지)
-        <article class="pcard pcard--unity pcard--soon reveal" style="left:28.44%;top:77.86%" aria-label="유니티 프로젝트 추가 예정">
-          <div class="pcard__thumb">COMING SOON</div>
-          <div class="pcard__info"><h3>프로젝트 이름</h3></div>
-        </article>
-        <article class="pcard pcard--unity pcard--soon reveal" style="left:2.86%;top:84.44%" aria-label="유니티 프로젝트 추가 예정">
-          <div class="pcard__thumb">COMING SOON</div>
-          <div class="pcard__info"><h3>프로젝트 이름</h3></div>
-        </article>
-        -->
+        <h3 class="pshow__sub">SUB PROJECTS</h3>
+        <div class="pshow__grid">
+          <article class="pitem reveal" id="pj-div" data-project="1" tabindex="0" role="button">
+            <div class="pitem__media"><div class="pitem__thumb"></div></div>
+            <div class="pitem__info">
+              <div class="pitem__meta"><span>02</span><span>WEB / UI DESIGN</span><i class="pitem__arrow" aria-hidden="true">↗</i></div>
+              <h3>DIV <em>3인 프로젝트</em></h3><p>기부 이후 경험을 연결하는 기부 서비스 소개 웹사이트</p><small>웹 디자인 · 프로그래밍 · 2026.03 ~ 06</small>
+            </div>
+          </article>
+          <article class="pitem reveal" id="pj-islife" data-project="2" tabindex="0" role="button">
+            <div class="pitem__media"><div class="pitem__thumb"></div></div>
+            <div class="pitem__info">
+              <div class="pitem__meta"><span>03</span><span>SERIOUS GAME</span><i class="pitem__arrow" aria-hidden="true">↗</i></div>
+              <h3>Is Life <em>1인 프로젝트</em></h3><p>경제적 불안정 삶을 체험하는 시리어스 게임</p><small>2026.05 ~ 06</small>
+            </div>
+          </article>
+          <article class="pitem reveal" id="pj-dojagi" data-project="3" tabindex="0" role="button">
+            <div class="pitem__media"><div class="pitem__thumb"></div></div>
+            <div class="pitem__info">
+              <div class="pitem__meta"><span>04</span><span>WEB / EDITORIAL</span><i class="pitem__arrow" aria-hidden="true">↗</i></div>
+              <h3>도자기 <em>1인 프로젝트</em></h3><p>한국 전통 도자기를 소개하는 웹사이트</p><small>2026.05 ~ 06</small>
+            </div>
+          </article>
+          <article class="pitem reveal" id="pj-thailand" data-project="4" tabindex="0" role="button">
+            <div class="pitem__media"><div class="pitem__thumb"></div></div>
+            <div class="pitem__info">
+              <div class="pitem__meta"><span>05</span><span>GRAPHIC / WEB DESIGN</span><i class="pitem__arrow" aria-hidden="true">↗</i></div>
+              <h3>Thailand <em>1인 프로젝트</em></h3><p>태국 음식 문화를 소개하는 웹페이지 디자인</p><small>웹 디자인 · 2024.09 ~ 12</small>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
 
     <!-- ABOUT -->
-    <section class="about" id="about" data-section>
-      <div class="about__photo reveal"></div>
-      <div class="about__body">
-        <div class="pills reveal"><a class="pill" href="assets/resume.pdf" download="이유정_이력서.pdf">이력서 PDF ↓</a><a class="pill" href="https://github.com/Leeyoujoungg" target="_blank" rel="noopener">GITHUB ↗</a></div>
-        <p class="about__slogan reveal">인터랙션을 설계하고 구현하는
-          <br>디자인 개발자<strong> 이유정</strong> 입니다</p>
-        <dl class="about__info reveal">
+    <section class="abt" id="about" data-section>
+      <div class="abt__wrap">
+        <header class="abt__head reveal"><h2 class="abt__title">ABOUT</h2><p class="abt__count">PROFILE</p></header>
+        <div class="abt__grid">
+          <div class="abt__photo reveal"></div>
+          <div class="abt__body">
+            <p class="abt__eyebrow reveal">DESIGN &amp; INTERACTION DEVELOPER</p>
+            <h3 class="abt__name reveal">이유정</h3>
+            <p class="abt__slogan reveal">인터랙션을 설계하고 구현하는<br>디자인 개발자<strong> 이유정</strong> 입니다</p>
+            <p class="abt__lead reveal">기획과 디자인, 개발을 연결해 사용자에게 새로운 경험을 전달합니다.</p>
+            <div class="pills reveal"><a class="pill" href="assets/resume.pdf" download="이유정_이력서.pdf">이력서 PDF ↓</a><a class="pill" href="https://github.com/Leeyoujoungg" target="_blank" rel="noopener">GITHUB ↗</a></div>
+            <div class="abt__what reveal">
+              <h4>WHAT I DO</h4>
+              <ol>
+                <li><span>01</span><b>PLAN</b><p>아이디어와 구조 설계</p></li>
+                <li><span>02</span><b>DESIGN</b><p>시각적 경험 구성</p></li>
+                <li><span>03</span><b>BUILD</b><p>인터랙션 구현</p></li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <dl class="abt__info reveal">
           <div><dt>BIRTHDAY</dt><dd>2005.05.03</dd></div>
           <div><dt>E-MAIL</dt><dd><a href="mailto:youkh0503@gmail.com">youkh0503@gmail.com</a></dd></div>
           <div><dt>EDUCATION</dt><dd>계원예술대학교 디지털미디어디자인과 <small>2027.02 졸업 예정</small><br>태릉고등학교 <small>2024.02 졸업</small></dd></div>
@@ -143,47 +151,57 @@
     </section>
 
     <!-- SKILLS -->
-    <section class="skills" id="skills" data-section>
-      <header class="head reveal"><span>(02)</span><h2>SKILLS</h2></header>
-      <div class="skills__cols">
-        <div class="skills__group reveal">
-          <h3>주요 <small>MAIN</small></h3>
+    <section class="skl" id="skills" data-section>
+      <div class="skl__wrap">
+        <header class="skl__head reveal"><h2 class="skl__title"><span>(02)</span>SKILLS</h2><p class="skl__count">08 TOOLS · 클릭하면 사용한 프로젝트로 이동</p></header>
+        <div class="skl__group reveal">
+          <h3><b>DEVELOPMENT</b><small>01 — 05</small></h3>
           <ul>
-            <li><b>HTML</b><div class="sk"><p>시맨틱 마크업으로 페이지 구조를 설계하고, 반응형 레이아웃과 애니메이션·트랜지션을 활용한 <br>인터랙티브 웹 구현 가능</p><span class="lv"><em>USED IN</em><a href="#pj-div" data-goto="pj-div">DIV</a><a href="#pj-islife" data-goto="pj-islife">Is Life</a><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a><strong class="pct" aria-label="숙련도 85%">85%</strong></span></div></li>
-            <li><b>CSS</b><div class="sk"><p>반응형 레이아웃과 트랜지션으로 인터랙티브 웹의 시각 표현 구현 가능</p><span class="lv"><em>USED IN</em><a href="#pj-div" data-goto="pj-div">DIV</a><a href="#pj-islife" data-goto="pj-islife">Is Life</a><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a><strong class="pct" aria-label="숙련도 80%">80%</strong></span></div></li>
-            <li><b>JavaScript</b><div class="sk"><p>이벤트 제어로 인터랙션을 구현하고, 횡스크롤 게임 상태 및 동적 콘텐츠 렌더링 구현 가능</p><span class="lv"><em>USED IN</em><a href="#pj-div" data-goto="pj-div">DIV</a><a href="#pj-islife" data-goto="pj-islife">Is Life</a><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a><strong class="pct" aria-label="숙련도 75%">75%</strong></span></div></li>
-            <li><b>React</b><div class="sk"><p>컴포넌트 단위 UI 제작 및 상태관리 활용, 스타일링 및 상태 관리 구현 가능</p><span class="lv"><em>USED IN</em><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a><strong class="pct" aria-label="숙련도 65%">65%</strong></span></div></li>
-            <li><b>Unity (C#)</b><div class="sk"><p>캐릭터 이동, 충돌 감지, 오브젝트 생성·제어를 구현하여 2D,3D 등 간단한 게임 제작 가능</p><span class="lv"><em>USED IN</em><a href="#pj-malmoi" data-goto="pj-malmoi">말모이</a><strong class="pct" aria-label="숙련도 60%">60%</strong></span></div></li>
+            <li><span class="skl__no">01</span><b>HTML</b><p>웹 문서 구조 설계</p><span class="skl__used"><a href="#pj-div" data-goto="pj-div">DIV</a><a href="#pj-islife" data-goto="pj-islife">Is Life</a><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a></span></li>
+            <li><span class="skl__no">02</span><b>CSS</b><p>레이아웃 및 스타일 구현</p><span class="skl__used"><a href="#pj-div" data-goto="pj-div">DIV</a><a href="#pj-islife" data-goto="pj-islife">Is Life</a><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a></span></li>
+            <li><span class="skl__no">03</span><b>JavaScript</b><p>동적 기능과 인터랙션 구현</p><span class="skl__used"><a href="#pj-div" data-goto="pj-div">DIV</a><a href="#pj-islife" data-goto="pj-islife">Is Life</a><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a></span></li>
+            <li><span class="skl__no">04</span><b>React</b><p>컴포넌트 기반 UI 개발</p><span class="skl__used"><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a></span></li>
+            <li><span class="skl__no">05</span><b>Unity (C#)</b><p>게임 로직 및 인터랙션 구현</p><span class="skl__used"><a href="#pj-malmoi" data-goto="pj-malmoi">말모이</a></span></li>
           </ul>
         </div>
-        <div class="skills__group reveal">
-          <h3>보조 <small>SUB</small></h3>
+        <div class="skl__group reveal">
+          <h3><b>DESIGN TOOLS</b><small>01 — 03</small></h3>
           <ul>
-            <li><b>Figma</b><div class="sk"><p>UI 설계, 프로토타이핑, 컴포넌트 구성 가능</p><span class="lv"><em>USED IN</em><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a><a href="#pj-thailand" data-goto="pj-thailand">Thailand</a><strong class="pct" aria-label="숙련도 75%">75%</strong></span></div></li>
-            <li><b>Illustrator</b><div class="sk"><p>그래픽 요소 제작 가능</p><span class="lv"><em>USED IN</em><a href="#pj-thailand" data-goto="pj-thailand">Thailand</a><a href="#pj-div" data-goto="pj-div">DIV</a><a href="#pj-islife" data-goto="pj-islife">Is Life</a><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a><strong class="pct" aria-label="숙련도 70%">70%</strong></span></div></li>
-            <li><b>Photoshop</b><div class="sk"><p>이미지 보정·합성 가능</p><span class="lv"><em>USED IN</em><a href="#pj-thailand" data-goto="pj-thailand">Thailand</a><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a><strong class="pct" aria-label="숙련도 55%">55%</strong></span></div></li>
+            <li><span class="skl__no">01</span><b>Figma</b><p>UI 설계, 프로토타이핑, 컴포넌트 구성</p><span class="skl__used"><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a><a href="#pj-thailand" data-goto="pj-thailand">Thailand</a></span></li>
+            <li><span class="skl__no">02</span><b>Illustrator</b><p>그래픽 요소 제작</p><span class="skl__used"><a href="#pj-thailand" data-goto="pj-thailand">Thailand</a><a href="#pj-div" data-goto="pj-div">DIV</a><a href="#pj-islife" data-goto="pj-islife">Is Life</a><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a></span></li>
+            <li><span class="skl__no">03</span><b>Photoshop</b><p>이미지 보정·합성</p><span class="skl__used"><a href="#pj-thailand" data-goto="pj-thailand">Thailand</a><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a></span></li>
           </ul>
         </div>
       </div>
     </section>
 
     <!-- CONTACT -->
-    <section class="contact" id="contact" data-section>
-      <div class="contact__grid">
-        <div class="reveal contact__left">
-          <header class="head"><span>(03)</span><h2>CONTACT</h2></header>
-          <div class="contact__btns">
-            <a class="btn btn--fill" href="assets/resume.pdf" download="이유정_이력서.pdf">이력서 다운로드 ↓</a>
-            <a class="btn" href="mailto:youkh0503@gmail.com">이메일 보내기 ↗</a>
+    <section class="cts" id="contact" data-section>
+      <div class="cts__wrap">
+        <header class="cts__head reveal"><h2 class="cts__title"><span>(03)</span>CONTACT</h2><p class="cts__count">LET'S CONNECT</p></header>
+
+        <div class="cts__hero reveal">
+          <div>
+            <p class="cts__big">LET'S MAKE<br>SOMETHING.</p>
+            <p class="cts__lead">새로운 아이디어를 함께 구체적인 경험으로 만들어가고 싶습니다.</p>
           </div>
+          <div class="cts__tower" data-tower aria-hidden="true"></div>
         </div>
-        <form class="form reveal" id="mailForm" novalidate>
-          <label>이름<input type="text" name="name" autocomplete="name" required></label>
-          <label>회신 받을 이메일<input type="email" name="email" autocomplete="email" required></label>
-          <label>내용<textarea name="msg" rows="5" required></textarea></label>
-          <button class="btn btn--fill" type="submit">메일 작성하기 →</button>
-          <p class="form__note" id="formNote" role="status"></p>
-        </form>
+
+        <div class="cts__grid">
+          <ul class="cts__links reveal">
+            <li><a href="mailto:youkh0503@gmail.com"><span>EMAIL</span><b>youkh0503@gmail.com</b><i aria-hidden="true">↗</i></a></li>
+            <li><a href="https://github.com/Leeyoujoungg" target="_blank" rel="noopener"><span>GITHUB</span><b>github.com/Leeyoujoungg</b><i aria-hidden="true">↗</i></a></li>
+            <li><a href="assets/resume.pdf" download="이유정_이력서.pdf"><span>RESUME</span><b>이력서 다운로드</b><i aria-hidden="true">↓</i></a></li>
+          </ul>
+          <form class="form cts__form reveal" id="mailForm" novalidate>
+            <label>이름<input type="text" name="name" autocomplete="name" required></label>
+            <label>회신 받을 이메일<input type="email" name="email" autocomplete="email" required></label>
+            <label>내용<textarea name="msg" rows="5" required></textarea></label>
+            <button class="btn btn--fill" type="submit">메일 작성하기 →</button>
+            <p class="form__note" id="formNote" role="status"></p>
+          </form>
+        </div>
       </div>
       <footer class="foot">
         <span>© 2026 YOUJUNG · 이유정</span>
@@ -191,6 +209,7 @@
         <a href="#home">TOP ↑</a>
       </footer>
     </section>
+
   </main>
 
     <!-- PROJECT MODAL -->

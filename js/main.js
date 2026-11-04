@@ -1,4 +1,4 @@
-﻿/* ===== 돌탑 (조각 PNG를 완성본 좌표에 맞춰 쌓음 · 아래 → 위 순서 = 쌓이는 순서) ===== */
+/* ===== 돌탑 (조각 PNG를 완성본 좌표에 맞춰 쌓음 · 아래 → 위 순서 = 쌓이는 순서) ===== */
 const TOWER_W = 614, TOWER_H = 911;
 const STONES = [
   { f:'shadow', x:-1,  y:712, w:614, h:198 },
@@ -45,12 +45,17 @@ if (location.hash === '#projects') {
 
 /* ===== 스크롤: 로고 등장 / 돌탑 패럴랙스 / 메뉴 강조 ===== */
 const heroTower = document.getElementById('heroTower');
+const heroMain = document.getElementById('heroMain');
 let ticking = false;
 
 function onScroll() {
   const y = scrollY;
   body.classList.toggle('scrolled', y > 80);
   if (!reduce && y < innerHeight * 1.2) heroTower.style.setProperty('--py', `${y * 0.18}px`);
+  if (y < innerHeight * 1.2) {
+    heroMain.style.opacity = Math.max(0, 1 - y / (innerHeight * .75));
+    if (!reduce) heroMain.style.transform = `translateY(${-y * .12}px)`;
+  }
   updateActive();
   ticking = false;
 }
@@ -69,6 +74,19 @@ function updateActive() {
   links.forEach(a => a.classList.toggle('on', a.dataset.link === id));
 }
 onScroll();
+
+/* ===== 메인 돌탑: 마우스를 따라 미세하게 회전 ===== */
+const hero = document.getElementById('home');
+if (!reduce && matchMedia('(hover:hover)').matches) {
+  hero.addEventListener('pointermove', e => {
+    const r = hero.getBoundingClientRect();
+    const nx = (e.clientX - r.left) / r.width - .5, ny = (e.clientY - r.top) / r.height - .5;
+    heroTower.style.setProperty('--ry', `${nx * 8}deg`);
+    heroTower.style.setProperty('--rx', `${-ny * 6}deg`);
+    heroTower.style.setProperty('--mx', `${nx * 14}px`);
+  });
+  hero.addEventListener('pointerleave', () => ['--ry', '--rx', '--mx'].forEach(k => heroTower.style.removeProperty(k)));
+}
 
 /* ===== 등장 애니메이션 ===== */
 const revObs = new IntersectionObserver(es => es.forEach(e => {
@@ -100,60 +118,61 @@ form.addEventListener('submit', e => {
 });
 
 /* ===== 메인 선 모션: 그려지듯 등장 → 살랑살랑 흔들림 + 스크롤 시 어긋남 ===== */
-const heroLines = [...document.querySelectorAll('.hero__lines line')].map((el, i) => ({
-  el, i,
-  x1: +el.getAttribute('x1'), y1: +el.getAttribute('y1'),
-  x2: +el.getAttribute('x2'), y2: +el.getAttribute('y2')
-}));
+/* 파랑(위→아래) → 검정(같은 끝점에서 이어져 PROJECT까지) ┬ 노랑(검정 위의 한 점에서 갈라짐)
+   세 선이 같은 꼭짓점을 공유하고, 흔들림도 꼭짓점 단위로 계산해서 항상 붙어 있음 */
+const flowSvg = document.querySelector('.flow');
+const flowHero = document.getElementById('home');
+const fl = {
+  blue: document.getElementById('flowBlue'),
+  black: document.getElementById('flowBlack'),
+  yellow: document.getElementById('flowYellow')
+};
+/* 1935×965 기준 좌표 (히어로 영역). 검정은 P1→P3 직선, 노랑 시작점은 그 위의 비율 u */
+/* 스케치처럼 서로 가로지르고 끝이 교차점을 살짝 넘어감. 파랑×노랑, 노랑×검정이 교차하며 아래 섹션 쪽으로 이어짐 */
+const FL = {
+  blue:   [[1757, 0],   [1662, 800]],
+  black:  [[760, 830],  [2000, 1118]],
+  yellow: [[960, 1040], [1935, 620]]
+};
+let fW = innerWidth, fH = innerHeight;
+function flowMeasure() {
+  fW = flowHero.offsetWidth; fH = flowHero.offsetHeight;
+  flowSvg.style.height = (fH + 600 * fW / 1935 + 60) + 'px';
+}
+flowMeasure();
+addEventListener('resize', flowMeasure);
+addEventListener('load', flowMeasure);
+const fmap = ([x, y]) => [x * fW / 1935, y <= 965 ? y * fH / 965 : fH + (y - 965) * fW / 1935];
 let linesStart = null;
+const fE = (t, d, s) => { const p = Math.min(Math.max((t - d) / s, 0), 1); return 1 - Math.pow(1 - p, 3); };
+
+function setLine(el, a, b, e) {
+  el.setAttribute('x1', a[0]); el.setAttribute('y1', a[1]);
+  el.setAttribute('x2', a[0] + (b[0] - a[0]) * e);
+  el.setAttribute('y2', a[1] + (b[1] - a[1]) * e);
+}
 
 function paintLines(now) {
   const t = linesStart === null ? 0 : now - linesStart;
-  const sy = Math.min(scrollY, innerHeight * 1.2);
-  heroLines.forEach(l => {
-    const p = linesStart === null ? 0 : Math.min(Math.max((t - l.i * 220) / 1200, 0), 1);
-    const e = 1 - Math.pow(1 - p, 3);
-    const sway = reduce ? 0 : Math.min(Math.max((t - l.i * 220 - 1200) / 1500, 0), 1);
-    const ph = now / 1700 + l.i * 1.7;
-    const dx = sway * Math.sin(ph) * 14;
-    const dy = sway * Math.cos(ph * .8) * 12 + sy * (l.i % 2 ? -.35 : .35);
-    l.el.setAttribute('x1', l.x1 + dx);
-    l.el.setAttribute('y1', l.y1 + dy);
-    l.el.setAttribute('x2', l.x1 + (l.x2 - l.x1) * e + dx);
-    l.el.setAttribute('y2', l.y1 + (l.y2 - l.y1) * e + dy);
-  });
+  const sway = reduce ? 0 : Math.min(Math.max((t - 2400) / 1500, 0), 1);
+  const sy = Math.min(scrollY, innerHeight * 1.5);
+  const wob = (p, i) => {
+    const q = fmap(p), ph = now / 1700 + i * 1.7;
+    return [q[0] + sway * Math.sin(ph) * 14, q[1] + sway * Math.cos(ph * .8) * 12];
+  };
+  /* 순서: 파랑 → 검정 → 노랑 */
+  setLine(fl.blue, wob(FL.blue[0], 0), wob(FL.blue[1], 1), fE(t, 0, 900));
+  setLine(fl.black, wob(FL.black[0], 2), wob(FL.black[1], 3), fE(t, 700, 1300));
+  setLine(fl.yellow, wob(FL.yellow[0], 4), wob(FL.yellow[1], 5), fE(t, 1300, 1200));
+  flowSvg.style.transform = `translateY(${sy * .12}px)`;
   if (!reduce) requestAnimationFrame(paintLines);
 }
 function startLines() { linesStart = performance.now() + 250; }
 if (reduce) linesStart = -1e6;
 paintLines(performance.now());
 
-/* skills : hover 시 퍼센트가 0에서 올라감 */
-document.querySelectorAll('.skills__group li').forEach(li => {
-  const pct = li.querySelector('.pct');
-  if (!pct) return;
-  const to = parseInt(pct.textContent, 10);
-  let raf = 0, rest = 0;
-  li.addEventListener('mouseenter', () => {
-    cancelAnimationFrame(raf);
-    clearTimeout(rest);
-    if (reduce) return;
-    const t0 = performance.now(), delay = 60, dur = 450;
-    const tick = now => {
-      const k = Math.min(Math.max((now - t0 - delay) / dur, 0), 1);
-      pct.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))) + '%';
-      if (k < 1) raf = requestAnimationFrame(tick);
-    };
-    pct.textContent = '0%';
-    raf = requestAnimationFrame(tick);
-  });
-  li.addEventListener('mouseleave', () => {
-    cancelAnimationFrame(raf);
-    rest = setTimeout(() => { pct.textContent = to + '%'; }, 260);
-  });
-});
 /* skills : 프로젝트 칩 클릭 시 해당 카드로 이동 */
-document.querySelectorAll('.lv a[data-goto]').forEach(a => {
+document.querySelectorAll('a[data-goto]').forEach(a => {
   a.addEventListener('click', e => {
     e.preventDefault();
     const card = document.getElementById(a.dataset.goto);
@@ -163,13 +182,3 @@ document.querySelectorAll('.lv a[data-goto]').forEach(a => {
     setTimeout(() => card.classList.remove('is-ping'), 1800);
   });
 });
-
-/* ===== 프로젝트 카드: 호버하면 옆 카드와 크기가 바뀌고, 마우스를 떼도 유지 ===== */
-if (matchMedia('(hover:hover)').matches) {
-  const pf = document.querySelector('.pframe');
-  /* [원래 좁은 카드, 원래 넓은 카드, 상태 클래스] */
-  [['pj-islife', 'pj-div', 'swap-1'], ['pj-dojagi', 'pj-thailand', 'swap-2']].forEach(([narrow, wide, cls]) => {
-    document.getElementById(narrow).addEventListener('mouseenter', () => pf.classList.add(cls));
-    document.getElementById(wide).addEventListener('mouseenter', () => pf.classList.remove(cls));
-  });
-}

@@ -214,7 +214,7 @@ const PROJECTS = [
     if (!p) return;
     busy = true; lastCard = card;
     fill(p);
-    origin = card.querySelector('.pcard__thumb').getBoundingClientRect();
+    origin = card.querySelector('.pitem__media').getBoundingClientRect();
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
@@ -231,7 +231,7 @@ const PROJECTS = [
   function close() {
     if (busy || !modal.classList.contains('is-open')) return;
     busy = true;
-    const live = lastCard.querySelector('.pcard__thumb').getBoundingClientRect();
+    const live = lastCard.querySelector('.pitem__media').getBoundingClientRect();
     const to = panel.getBoundingClientRect();
     const d = delta(live, to);
     modal.querySelector('.pmodal__backdrop').animate([{ opacity: 1 }, { opacity: 0 }], { duration: DUR * .8, easing: 'ease', fill: 'forwards' });
@@ -250,7 +250,7 @@ const PROJECTS = [
 
   document.querySelectorAll('[data-project]').forEach(c => {
     const pj = PROJECTS[+c.dataset.project];
-    if (pj && pj.img) c.querySelector('.pcard__thumb').style.backgroundImage = `url(${pj.img})`;
+    if (pj && pj.img) c.querySelector('.pitem__thumb').style.backgroundImage = `url(${pj.img})`;
     const go = () => c.dataset.href ? (location.href = c.dataset.href) : open(c);
     c.addEventListener('click', go);
     c.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
