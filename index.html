@@ -40,6 +40,12 @@
       <line id="flowBlack" stroke="#111"/>
       <line id="flowYellow" stroke="#f4e86d"/>
     </svg>
+    <!-- 스크롤하면 메인 선이 아래 섹션으로 이어지며 그려짐 (좌표는 main.js가 계산) -->
+    <svg class="trail" id="trail" aria-hidden="true">
+      <g id="trailBlue" stroke="#5BA8D8"></g>
+      <g id="trailBlack" stroke="#111"></g>
+      <g id="trailYellow" stroke="#f4e86d"></g>
+    </svg>
     <!-- HOME -->
     <section class="hero2" id="home" data-section>
       <div class="hero2__wrap">
@@ -61,7 +67,6 @@
         </div>
         <div class="hero2__tower" id="heroTower" data-tower aria-hidden="true"></div>
       </div>
-      <p class="hero2__scroll" aria-hidden="true">↓</p>
     </section>
 
     <!-- PROJECTS -->
@@ -197,7 +202,7 @@
           <form class="form cts__form reveal" id="mailForm" novalidate>
             <label>이름<input type="text" name="name" autocomplete="name" required></label>
             <label>회신 받을 이메일<input type="email" name="email" autocomplete="email" required></label>
-            <label>내용<textarea name="msg" rows="5" required></textarea></label>
+            <label>내용<textarea name="msg" rows="2" required></textarea></label>
             <button class="btn btn--fill" type="submit">메일 작성하기 →</button>
             <p class="form__note" id="formNote" role="status"></p>
           </form>

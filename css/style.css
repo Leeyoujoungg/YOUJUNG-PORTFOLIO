@@ -1,4 +1,4 @@
-:root{
+﻿:root{
   --ink:#0a0a0a; --bg:#fff; --gray:#d9d9d9; --paper:#efeae4; --mute:#8a8a8a;
   --pad:clamp(20px,4.5vw,64px);
   --en:'Inter','Noto Sans KR',sans-serif; --kr:'Noto Sans KR','Inter',sans-serif;
@@ -31,6 +31,14 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:54px;z-index:
 main{position:relative;overflow-x:clip}
 .flow{position:absolute;left:0;top:0;width:100%;height:100vh;z-index:1;overflow:visible;pointer-events:none;will-change:transform}
 .flow line{stroke-width:12;stroke-linecap:butt}
+/* 스크롤에 따라 이어서 그려지는 선 (콘텐츠 뒤) */
+.trail{position:absolute;left:0;top:0;width:100%;height:100%;z-index:-1;overflow:visible;pointer-events:none}
+.trail g{stroke-linecap:round}
+
+/* 텍스트 블록: 아무 영향도 받지 않는 완전한 흰색 */
+.pitem__info,.abt__body,.skl__group,.cts__hero>div:first-child,.cts__links,.cts__form{background:#fff}
+/* 텍스트가 선에 뚫리지 않도록 About 정보는 흰 배경 */
+.abt__info{background:#fff;padding:0 clamp(8px,1vw,16px)}
 
 .pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:clamp(36px,5vw,72px)}
 .pill{display:inline-block;border:1.5px solid var(--ink);border-radius:99px;padding:4px 16px;font:700 16px/1.6 var(--kr);transition:.2s}
@@ -107,7 +115,7 @@ body.modal-open{overflow:hidden}
 /* 사선은 섹션의 시작·끝 경계에만 */
 .pshow__deco{position:absolute;z-index:1;height:12px;transform-origin:center;pointer-events:none}
 /* 메인 화면 아래에서 시작해 PROJECT 섹션으로 이어지는 하나의 검정 선 (섹션 경계에 걸쳐 있음) */
-.pshow__deco--bottom{left:-6vw;bottom:clamp(40px,6vw,110px);width:30vw;background:#5BA8D8;transform:rotate(-18deg)}
+.pshow__deco--bottom{display:none;left:-6vw;bottom:clamp(40px,6vw,110px);width:30vw;background:#5BA8D8;transform:rotate(-18deg)}
 .pshow__head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:clamp(28px,3.5vw,56px)}
 .pshow__title{position:relative;font:900 clamp(44px,7vw,130px)/1 var(--en);letter-spacing:-.04em}
 .pshow__title span{position:absolute;right:100%;margin-right:.3em;bottom:.12em;font:600 clamp(14px,1.2vw,18px)/1 var(--en);letter-spacing:0;color:var(--mute)}
@@ -206,7 +214,7 @@ body.modal-open{overflow:hidden}
 }
 @media (max-width:720px){.skl__title span{position:static;display:block;margin:0 0 8px}}
 /* ---------- CONTACT v2 · 마무리 화면 ---------- */
-.cts{padding:clamp(90px,11vw,200px) 0 28px;background:#fff}
+.cts{padding:clamp(90px,11vw,200px) 0 28px}
 .cts__wrap{max-width:1440px;margin:0 auto;padding:0 clamp(20px,6vw,115px)}
 .cts__head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:clamp(28px,3.5vw,56px);border-bottom:1.5px solid var(--ink);padding-bottom:clamp(14px,1.6vw,24px)}
 .cts__title{position:relative;font:900 clamp(44px,7vw,130px)/1 var(--en);letter-spacing:-.04em}
@@ -218,13 +226,17 @@ body.modal-open{overflow:hidden}
 .cts__tower{flex:none;height:clamp(120px,19vw,300px);aspect-ratio:614/911}
 .cts__grid{display:grid;grid-template-columns:7fr 5fr;gap:clamp(32px,6vw,110px);align-items:start}
 .cts__links{border-top:1.5px solid var(--ink);list-style:none}
-.cts__links a{display:grid;grid-template-columns:clamp(70px,8vw,120px) 1fr auto;align-items:center;gap:clamp(10px,1.5vw,24px);padding:clamp(18px,2vw,30px) clamp(8px,1vw,16px);border-bottom:1px solid #ddd;transition:background .25s,color .25s}
+.cts__links a{display:grid;grid-template-columns:clamp(70px,8vw,120px) 1fr auto;align-items:center;gap:clamp(10px,1.5vw,24px);min-height:clamp(104px,7vw,112px);padding:0 clamp(8px,1vw,16px);border-bottom:1.5px solid var(--ink);transition:background .25s,color .25s}
 .cts__links a:hover,.cts__links a:focus-visible{background:var(--ink);color:#fff}
 .cts__links span{font:700 clamp(11px,.9vw,13px)/1 var(--en);letter-spacing:.14em;color:var(--mute)}
-.cts__links b{font:800 clamp(18px,2.3vw,36px)/1.2 var(--en);letter-spacing:-.02em;overflow-wrap:anywhere}
+.cts__links b{font:800 clamp(15px,1.7vw,26px)/1.2 var(--en);letter-spacing:-.02em;overflow-wrap:anywhere}
 .cts__links i{font:400 clamp(20px,2vw,30px)/1 var(--en);font-style:normal;transition:transform .35s cubic-bezier(.2,.7,.2,1)}
 .cts__links a:hover i{transform:translate(4px,-4px)}
-.cts__form{padding-top:6px}
+/* 원래 스타일(라벨 위 · 검은 밑줄) 유지, 밑줄 높이만 왼쪽 링크 줄과 맞춤 */
+.cts__form{gap:0}
+.cts__form label{min-height:clamp(104px,7vw,112px);align-content:space-between;gap:6px}
+.cts__form textarea{padding:6px 0;resize:vertical}
+.cts__form .btn{margin-top:20px}
 @media (max-width:860px){
   .cts__grid{grid-template-columns:1fr}
   .cts__tower{height:clamp(100px,26vw,180px)}
@@ -260,3 +272,5 @@ body.modal-open{overflow:hidden}
   .hero2__works a:hover em{opacity:0}
 }
 @media (prefers-reduced-motion:reduce){.hero2__title span{transition:none;transform:none;opacity:1}.hero2__tower{transition:none}}
+
+

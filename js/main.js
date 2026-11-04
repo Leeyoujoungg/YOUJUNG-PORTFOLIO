@@ -1,4 +1,4 @@
-/* ===== 돌탑 (조각 PNG를 완성본 좌표에 맞춰 쌓음 · 아래 → 위 순서 = 쌓이는 순서) ===== */
+﻿/* ===== 돌탑 (조각 PNG를 완성본 좌표에 맞춰 쌓음 · 아래 → 위 순서 = 쌓이는 순서) ===== */
 const TOWER_W = 614, TOWER_H = 911;
 const STONES = [
   { f:'shadow', x:-1,  y:712, w:614, h:198 },
@@ -171,6 +171,88 @@ function startLines() { linesStart = performance.now() + 250; }
 if (reduce) linesStart = -1e6;
 paintLines(performance.now());
 
+/* ===== 스크롤 연결선: 메인의 파랑·검정·노랑이 섹션 경계에서 사선으로 갈아타며 아래로 이어짐 ===== */
+/* 각 점: [x 비율, 섹션 id, 섹션 내 y 비율]. 섹션 경계 근처에서 좌↔우 사선으로 교차 */
+const trailMain = document.querySelector('main');
+const trailSvg = document.getElementById('trail');
+/* 각 선은 예전 위치 그대로. 모두 CONTACT(03) 중간까지 내려오고, 끝 약 190px(≈5cm)에서만 가늘어져 끝남 */
+const TRAIL = [
+  { el: document.getElementById('trailBlue'), pts: [
+    ['hero', 's'], ['projects', 't'], ['projects', 'b'], ['about', 't'], ['about', 'b'], ['skills', 't'], ['skills', 'bA'], ['contact', 'tA'], ['contact', .5]
+  ], xs: [.859, .955, .955, .045, .045, .955, .955, .045, .045] },
+  { el: document.getElementById('trailBlack'), pts: [
+    ['projects', 't'], ['projects', .35], ['projects', 'b'], ['about', 't'], ['about', .55], ['skills', 't'], ['skills', 'b'], ['contact', 't'], ['contact', .5]
+  ], xs: [.015, .015, .015, .985, .985, .015, .015, .985, .985] },
+  { el: document.getElementById('trailYellow'), pts: [
+    ['hero', 'y'], ['projects', 't'], ['projects', .6], ['about', 't2'], ['about', 'b2'], ['skills', 't2'], ['skills', 'k-1.5'], ['contact', 'k0.9'], ['contact', .5]
+  ], xs: [1, .99, .99, .03, .03, .99, .99, .015, .015] }
+];
+const TAPER = 240, TRAIL_W = 5;
+/* 't' / 'b' = 섹션 콘텐츠의 시작/끝 근처(여백 안쪽). 사선은 섹션 사이 빈 여백 안에서만 가로지름 */
+const secEl = {
+  hero: document.getElementById('home'), projects: document.getElementById('projects'),
+  about: document.getElementById('about'), skills: document.getElementById('skills'),
+  contact: document.getElementById('contact')
+};
+let trailGeo = [];
+function trailMeasure() {
+  const mt = trailMain.getBoundingClientRect().top + scrollY, W = trailMain.offsetWidth;
+  trailSvg.style.height = trailMain.offsetHeight + 'px';
+  trailGeo = TRAIL.map(t => t.pts.map(([id, f], i) => {
+    const s = secEl[id], top = s.getBoundingClientRect().top + scrollY - mt;
+    /* 히어로의 파랑선 끝점은 실제 선 끝 위치에 맞춤 */
+    const pad = Math.min(Math.max(90, W * .11), 200) * .85;
+    const y = id === 'hero' ? fH * (f === 'y' ? .64 : 800 / 965)
+      : f === 't' ? top + pad : f === 'b' ? top + s.offsetHeight - pad
+      : typeof f === 'string' && f[0] === 'k' ? (id === 'skills' ? top + s.offsetHeight : top) + parseFloat(f.slice(1)) * pad
+      : f === 'bA' ? top + s.offsetHeight - pad * 1.18 : f === 'tA' ? top + pad * .35
+      : f === 'bB' ? top + s.offsetHeight - pad * .75 : f === 'tB' ? top + pad * .8
+      : f === 't2' ? top + pad * .45 : f === 'b2' ? top + s.offsetHeight - pad * .45 : top + s.offsetHeight * f;
+    return [t.xs[i] * W, y];
+  }));
+}
+function trailPaint() {
+  const par = Math.min(scrollY, innerHeight * 1.5) * .12;
+  TRAIL.forEach((t, k) => {
+    const pts = trailGeo[k].map((p, i) => p);
+    /* 스크롤 0에서는 아무것도 없고, 스크롤한 만큼만 시작점에서 앞쪽 끝이 내려옴 */
+    const head = pts[0][1] + scrollY * 1.25;
+    const out = [];
+    for (let i = 0; i < pts.length; i++) {
+      const p = pts[i];
+      if (p[1] <= head) { out.push(p); continue; }
+      if (i > 0) {
+        const q = pts[i - 1], r = (head - q[1]) / (p[1] - q[1]);
+        if (r > 0) out.push([q[0] + (p[0] - q[0]) * r, head]);
+      }
+      break;
+    }
+    /* 굵기 5px 고정. 시작·끝(그려지는 앞쪽 끝 포함) TAPER 길이만큼 서서히 투명해져 자연스럽게 나타나고 사라짐 */
+    let D = 0;
+    for (let i = 1; i < out.length; i++) D += Math.hypot(out[i][0] - out[i - 1][0], out[i][1] - out[i - 1][1]);
+    const ease = x => x * x * (3 - 2 * x);
+    let svg = '', acc = 0;
+    for (let i = 1; i < out.length; i++) {
+      const a = out[i - 1], b = out[i], sl = Math.hypot(b[0] - a[0], b[1] - a[1]);
+      const fine = acc < TAPER + 30 || acc + sl > D - TAPER - 30;
+      const n = Math.max(1, Math.ceil(sl / (fine ? 5 : 90)));
+      for (let j = 0; j < n; j++) {
+        const u0 = j / n, u1 = (j + 1) / n, sm = acc + sl * (u0 + u1) / 2;
+        const f = ease(Math.min(Math.max(Math.min(sm, D - sm) / TAPER, 0), 1));
+        const op = f.toFixed(2);
+        svg += `<line x1="${(a[0] + (b[0] - a[0]) * u0).toFixed(1)}" y1="${(a[1] + (b[1] - a[1]) * u0).toFixed(1)}" x2="${(a[0] + (b[0] - a[0]) * u1).toFixed(1)}" y2="${(a[1] + (b[1] - a[1]) * u1).toFixed(1)}" stroke-width="${TRAIL_W}" stroke-opacity="${op}"${f >= 1 ? ` stroke-linecap="round"` : ` stroke-linecap="butt"`}/>`;
+      }
+      acc += sl;
+    }    t.el.innerHTML = svg;
+  });
+}
+trailMeasure();
+trailPaint();
+addEventListener('scroll', trailPaint, { passive: true });
+addEventListener('resize', () => { trailMeasure(); trailPaint(); });
+addEventListener('load', () => { trailMeasure(); trailPaint(); });
+if (document.fonts) document.fonts.ready.then(() => { trailMeasure(); trailPaint(); });
+
 /* skills : 프로젝트 칩 클릭 시 해당 카드로 이동 */
 document.querySelectorAll('a[data-goto]').forEach(a => {
   a.addEventListener('click', e => {
@@ -182,3 +264,13 @@ document.querySelectorAll('a[data-goto]').forEach(a => {
     setTimeout(() => card.classList.remove('is-ping'), 1800);
   });
 });
+
+
+
+
+
+
+
+
+
+
