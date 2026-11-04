@@ -20,21 +20,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="is-loading">
-  <script>if (location.hash === '#projects') document.body.className = 'is-loaded is-done';</script>
-
-  <!-- 로딩: 돌이 하나씩 쌓이고, 흰 계단 패널이 열린다 -->
-  <div class="loader" id="loader" aria-live="polite">
-    <div class="loader__panels" aria-hidden="true">
-      <i></i><i></i><i></i><i></i><i></i>
-    </div>
-    <div class="loader__body">
-      <div class="loader__tower" data-tower data-drop></div>
-      <p class="loader__title">YOUJUNG PORTFOLIO</p>
-      <div class="loader__bar" role="progressbar" aria-label="로딩 중"><i></i></div>
-    </div>
-  </div>
-
+<body>
   <!-- 좌측 상단 로고 (스크롤 시 등장, 클릭 시 메인으로) -->
   <a class="logo" id="logo" href="#home" aria-label="YOJG, 메인으로 이동"><img class="logo__tower" src="assets/logo-tower.png" alt=""><img class="logo__word" src="assets/logo-wordmark.png" alt="YOJG"></a>
 
@@ -80,7 +66,7 @@
         <p class="hero__kr">작은 문제에서<br>새로운 가능성을 찾는</p>
       </div>
       <p class="hero__label hero__label--bl">(web)</p>
-      <p class="hero__label hero__label--br">PORTFOLIO 2026 ↓</p>
+      <p class="hero__label hero__label--br">PORTFOLIO ↓</p>
     </section>
 
     <!-- PROJECTS -->
@@ -88,41 +74,41 @@
       <div class="pframe">
         <h2 class="pframe__title"><span>(01)</span>PROJECT</h2>
 
-        <!-- 유니티 프로젝트를 숨기는 동안 영역 높이 2950 → 2330 (카드 top%는 ×1.266 으로 환산). 되살릴 때는 아래 주석 + .pframe 비율 + 카드 top 복원 -->
-        <svg class="pframe__lines" viewBox="0 0 1920 2330" preserveAspectRatio="none" aria-hidden="true">
-          <line x1="0" y1="55" x2="1480" y2="619"/>
-          <line x1="1218" y1="330" x2="1588" y2="1320"/>
-          <line x1="88" y1="1789" x2="1700" y2="1175"/>
-          <line x1="141" y1="1717" x2="1920" y2="2219"/>
+        <!-- 유니티 프로젝트를 숨기는 동안 영역 높이 2950 → 2745 (피그마 프로젝트 섹션_v.2 기준). 되살릴 때는 아래 주석 + .pframe 비율 + 카드 top 복원 -->
+        <svg class="pframe__lines" viewBox="0 0 1920 2745" preserveAspectRatio="none" aria-hidden="true">
+          <line x1="-30" y1="58" x2="1777" y2="1076"/>
+          <line x1="1845" y1="933" x2="0" y2="1717"/>
+          <line x1="14" y1="1674" x2="1894" y2="2004"/>
+          <line x1="1934" y1="1935" x2="0" y2="2460"/>
           <!-- UNITY 용 선 (원래 viewBox 높이 2950 기준)
           <line x1="564" y1="2888" x2="707" y2="2496"/>
           <line x1="381" y1="2699" x2="685" y2="2822"/>
           -->
         </svg>
 
-        <h3 class="pframe__group" style="left:0;top:38.65%;text-align:right">WEB<br>PROJECTS</h3>
+        <h3 class="pframe__group" style="left:-1.25%;top:40.5%;text-align:right">SUB<br>PROJECTS</h3>
         <!-- <h3 class="pframe__group" style="left:65.5%;top:83.8%">UNITY<br>PROJECTS</h3> -->
 
         <!-- 메인 프로젝트 : 클릭하면 상세 페이지(malmoi.html)로 이동 -->
-        <article class="pcard pcard--main reveal" id="pj-malmoi" data-project="0" data-href="malmoi.html" tabindex="0" role="link" style="left:12.55%;top:8.07%">
+        <article class="pcard pcard--main reveal" id="pj-malmoi" data-project="0" data-href="malmoi.html" tabindex="0" role="link" style="left:11.15%;top:6.3%;--w:77.71%;--ar:1492/760.44">
           <div class="pcard__thumb"></div>
           <div class="pcard__info"><h3>말모이 <em>8인 프로젝트 · 메인</em></h3><p>잊고 있던 감정 단어를 찾는 인터랙티브 체험형 리듬게임</p><small>기획 · 디자인 · 프로그래밍 · 2026.09 ~ 진행 중</small></div>
         </article>
 
-        <!-- WEB PROJECTS -->
-        <article class="pcard reveal" id="pj-div" data-project="1" tabindex="0" role="button" style="left:62.5%;top:31.75%">
+        <!-- SUB PROJECTS -->
+        <article class="pcard reveal" id="pj-div" data-project="1" tabindex="0" role="button" style="left:2.6%;top:52.39%;--w:49.91%;--ar:958.23/455.07">
           <div class="pcard__thumb"></div>
           <div class="pcard__info"><h3>DIV <em>3인 프로젝트</em></h3><p>기부 이후 경험을 연결하는 기부 서비스 소개 웹사이트</p><small>웹 디자인 · 프로그래밍 · 2026.03 ~ 06</small></div>
         </article>
-        <article class="pcard reveal" id="pj-islife" data-project="2" tabindex="0" role="button" style="left:38.28%;top:54.94%">
+        <article class="pcard reveal" id="pj-islife" data-project="2" tabindex="0" role="button" style="left:60.1%;top:52.39%;--w:37.27%;--ar:715.58/455.07">
           <div class="pcard__thumb"></div>
           <div class="pcard__info"><h3>Is Life <em>1인 프로젝트</em></h3><p>경제적 불안정 삶을 체험하는 시리어스 게임</p><small>2026.05 ~ 06</small></div>
         </article>
-        <article class="pcard reveal" id="pj-dojagi" data-project="3" tabindex="0" role="button" style="left:18.49%;top:75.53%">
+        <article class="pcard reveal" id="pj-dojagi" data-project="3" tabindex="0" role="button" style="left:2.6%;top:78.2%;--w:37.29%;--ar:716/455.07">
           <div class="pcard__thumb"></div>
           <div class="pcard__info"><h3>도자기 <em>1인 프로젝트</em></h3><p>한국 전통 도자기를 소개하는 웹사이트</p><small>2026.05 ~ 06</small></div>
         </article>
-        <article class="pcard reveal" id="pj-thailand" data-project="4" tabindex="0" role="button" style="left:72.81%;top:81.98%">
+        <article class="pcard reveal" id="pj-thailand" data-project="4" tabindex="0" role="button" style="left:47.5%;top:78.2%;--w:49.91%;--ar:958.23/455.07">
           <div class="pcard__thumb"></div>
           <div class="pcard__info"><h3>Thailand <em>1인 프로젝트</em></h3><p>태국 음식 문화를 소개하는 웹페이지 디자인</p><small>웹 디자인 · 2024.09 ~ 12</small></div>
         </article>

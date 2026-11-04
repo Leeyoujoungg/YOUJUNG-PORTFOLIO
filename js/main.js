@@ -26,25 +26,20 @@ document.querySelectorAll('[data-tower]').forEach(el => {
   });
 });
 
-/* ===== 로딩 ===== */
+/* ===== 시작 ===== */
 const body = document.body;
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-/* 돌 7개가 모두 쌓이는 시간(마지막 돌 delay 1.35s + 0.8s)에 로딩 바를 맞춤 */
-const DURATION = reduce ? 300 : 2150;
 
 if (location.hash === '#projects') {
-  /* 상세 페이지에서 프로젝트 목록으로 돌아올 때는 로딩 없이 바로 보여줌 */
-  body.classList.remove('is-loading');
-  body.classList.add('is-loaded', 'is-done');
+  /* 상세 페이지에서 프로젝트 목록으로 돌아올 때는 애니메이션 없이 바로 보여줌 */
+  body.classList.add('is-done');
   setTimeout(startLines, 0);
   addEventListener('load', () => document.getElementById('projects').scrollIntoView({ behavior: 'instant' }));
 } else {
-  setTimeout(() => {
-    body.classList.add('is-loaded');
+  requestAnimationFrame(() => {
     startLines();
-    body.classList.remove('is-loading');
-    setTimeout(() => body.classList.add('is-done'), 1300);
-  }, DURATION + 350);
+    body.classList.add('is-done');
+  });
 }
 
 
@@ -168,3 +163,13 @@ document.querySelectorAll('.lv a[data-goto]').forEach(a => {
     setTimeout(() => card.classList.remove('is-ping'), 1800);
   });
 });
+
+/* ===== 프로젝트 카드: 호버하면 옆 카드와 크기가 바뀌고, 마우스를 떼도 유지 ===== */
+if (matchMedia('(hover:hover)').matches) {
+  const pf = document.querySelector('.pframe');
+  /* [원래 좁은 카드, 원래 넓은 카드, 상태 클래스] */
+  [['pj-islife', 'pj-div', 'swap-1'], ['pj-dojagi', 'pj-thailand', 'swap-2']].forEach(([narrow, wide, cls]) => {
+    document.getElementById(narrow).addEventListener('mouseenter', () => pf.classList.add(cls));
+    document.getElementById(wide).addEventListener('mouseenter', () => pf.classList.remove(cls));
+  });
+}

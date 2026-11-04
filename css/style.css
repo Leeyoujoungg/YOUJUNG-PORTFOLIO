@@ -6,48 +6,11 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font-family:var(--kr);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-body.is-loading{overflow:hidden}
 a{color:inherit;text-decoration:none}
 ul{list-style:none}
 button,input,textarea{font:inherit;color:inherit}
 svg.tower{display:block;width:100%;height:100%;overflow:visible}
 
-/* ---------- LOADER ---------- */
-.loader{position:fixed;inset:0;z-index:100;pointer-events:none}
-.loader__panels{position:absolute;inset:0;display:flex;flex-direction:column}
-.loader__panels i{flex:1;background:#fff;transition:transform .9s cubic-bezier(.77,0,.18,1)}
-.loader__panels i:nth-child(2){transition-delay:.08s}
-.loader__panels i:nth-child(3){transition-delay:.16s}
-.loader__panels i:nth-child(4){transition-delay:.24s}
-.loader__panels i:nth-child(5){transition-delay:.32s}
-.loader__body{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity .4s}
-.loader__tower{height:min(54vh,460px);aspect-ratio:614/911}
-.loader__title{font:900 clamp(18px,3vw,28px)/1 var(--en);letter-spacing:-.02em}
-.loader__bar{width:calc(min(54vh,460px)*614/911);height:5px;background:#e6e6e6;overflow:hidden}
-.loader__bar i{display:block;height:100%;background:var(--ink);transform-origin:left;animation:loadbar 2.15s linear both}
-/* 돌이 하나 쌓일 때마다(0.95s부터 0.2s 간격) 바가 1/7씩 채워짐 */
-@keyframes loadbar{
-  0%,7%{transform:scaleX(0)}
-  44.2%{transform:scaleX(.1429)}
-  53.5%{transform:scaleX(.2857)}
-  62.8%{transform:scaleX(.4286)}
-  72.1%{transform:scaleX(.5714)}
-  81.4%{transform:scaleX(.7143)}
-  90.7%{transform:scaleX(.8571)}
-  100%{transform:scaleX(1)}
-}
-.is-loaded .loader__body{opacity:0}
-.is-loaded .loader__panels i:nth-child(odd){transform:translateX(-101%)}
-.is-loaded .loader__panels i:nth-child(even){transform:translateX(101%)}
-.is-done .loader{display:none}
-
-.tower--drop .stone{animation:drop .8s cubic-bezier(.3,.8,.3,1) both;animation-delay:calc(var(--i)*.2s + .15s)}
-@keyframes drop{
-  0%{opacity:0;transform:translateY(-260px)}
-  55%{opacity:1}
-  78%{transform:translateY(7px)}
-  100%{opacity:1;transform:translateY(0)}
-}
 
 /* ---------- HEADER ---------- */
 body::before{content:"";position:fixed;left:0;right:0;top:0;height:54px;z-index:49;background:rgba(255,255,255,.8);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
@@ -129,7 +92,7 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:54px;z-index:
 
 /* ---------- PROJECTS ---------- */
 .projects{position:relative;padding:clamp(80px,12vw,200px) 0 clamp(60px,8vw,140px);overflow:hidden}
-.pframe{position:relative;width:100%;margin:0;aspect-ratio:1920/2330;container-type:inline-size}
+.pframe{position:relative;width:100%;margin:0;aspect-ratio:1920/2745;container-type:inline-size}
 .pframe>*{position:absolute}
 .pframe__title{left:12.55%;top:0;font:900 5.6cqw/1 var(--en);letter-spacing:-.04em;z-index:3}
 .pframe__group{z-index:3;font:400 6.4cqw/1.05 var(--en);letter-spacing:-.03em}
@@ -195,8 +158,6 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:54px;z-index:
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .reveal,.hero__title .cut{transition:none;opacity:1;transform:none}
-  .tower--drop .stone{animation:none}
-  .loader__bar i{animation:none}
 }
 
 /* ---------- PROJECT MODAL ---------- */
@@ -259,3 +220,13 @@ body.modal-open{overflow:hidden}
 .skills__group li:hover .lv a:nth-of-type(2){transition-delay:.06s,.06s,0s,0s}
 .skills__group li:hover .lv a:nth-of-type(3){transition-delay:.12s,.12s,0s,0s}
 .skills__group li:hover .lv a:nth-of-type(4){transition-delay:.18s,.18s,0s,0s}
+
+/* ---------- 프로젝트 카드 호버: 옆 카드와 크기가 서로 바뀜 (마우스를 떼도 유지, 반대쪽 카드에 호버하면 다시 바뀜) (Figma v.2 가로 폭 기준) ---------- */
+.pcard.reveal{transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1),width .55s cubic-bezier(.2,.7,.2,1),left .55s cubic-bezier(.2,.7,.2,1)}
+.pcard__thumb{transition:transform .4s cubic-bezier(.2,.7,.2,1),box-shadow .4s cubic-bezier(.2,.7,.2,1),aspect-ratio .55s cubic-bezier(.2,.7,.2,1)}
+@media (hover:hover){
+  .pframe.swap-1 #pj-islife{left:47.5% !important;--w:49.91% !important;--ar:958.23/455.07 !important}
+  .pframe.swap-1 #pj-div{--w:37.27% !important;--ar:715.58/455.07 !important}
+  .pframe.swap-2 #pj-dojagi{--w:49.91% !important;--ar:958.23/455.07 !important}
+  .pframe.swap-2 #pj-thailand{left:60.1% !important;--w:37.27% !important;--ar:715.58/455.07 !important}
+}
