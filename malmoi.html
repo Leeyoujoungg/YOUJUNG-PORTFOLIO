@@ -12,8 +12,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/detail.css">
+  <link rel="stylesheet" href="css/style.css?v=20261112j">
+  <link rel="stylesheet" href="css/detail.css?v=20261111s">
 </head>
 <body class="scrolled detail">
 
@@ -29,7 +29,60 @@
       <p class="dt__lead">잊고 있던 감정 단어를 찾는<br>인터랙티브 체험형 리듬게임</p>
     </header>
 
-    <div class="dt__cover" role="img" aria-label="말모이 대표 이미지"></div>
+    <!-- 대표 이미지 → 옆으로 넘기면 플레이 영상 -->
+    <div class="dt__slider" id="dtSlider" aria-roledescription="carousel" aria-label="말모이 대표 이미지와 플레이 영상">
+      <div class="dt__track" id="dtTrack" tabindex="0">
+        <div class="dt__slide dt__cover" role="img" aria-label="말모이 대표 이미지"></div>
+        <div class="dt__slide">
+          <video id="dtVideo" src="assets/malmoi-play.mp4" poster="assets/malmoi-play-poster.webp" muted loop playsinline controls preload="metadata" aria-label="말모이 플레이 영상"></video>
+        </div>
+      </div>
+      <button class="dt__play" id="dtPlay" type="button">PLAY VIDEO <i aria-hidden="true">→</i></button>
+      <div class="dt__bar">
+        <p class="dt__cap" id="dtCap" aria-live="polite"></p>
+        <div class="dt__nav">
+          <button type="button" id="dtPrev" aria-label="이전">←</button>
+          <span id="dtCount">01 / 02</span>
+          <button type="button" id="dtNext" aria-label="다음">→</button>
+        </div>
+      </div>
+    </div>
+    <script>
+      (() => {
+        const track = document.getElementById('dtTrack'), video = document.getElementById('dtVideo');
+        const prev = document.getElementById('dtPrev'), next = document.getElementById('dtNext');
+        const cap = document.getElementById('dtCap'), count = document.getElementById('dtCount');
+        const play = document.getElementById('dtPlay');
+        const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const CAPS = ['(COVER) 옆으로 넘기면 실제 플레이 영상을 볼 수 있습니다',
+                      '(PLAY) 손을 레인 위로 움직여 감정 단어를 받는 실제 플레이 화면 · 소리는 영상 우측 하단에서 켤 수 있습니다'];
+        const N = track.children.length;
+        let idx = -1;
+        const go = i => track.scrollTo({ left: i * track.clientWidth, behavior: reduce ? 'auto' : 'smooth' });
+        const update = () => {
+          const i = Math.round(track.scrollLeft / track.clientWidth);
+          if (i === idx) return;
+          idx = i;
+          cap.textContent = CAPS[i];
+          count.textContent = `0${i + 1} / 0${N}`;
+          prev.disabled = i === 0; next.disabled = i === N - 1;
+          play.hidden = i !== 0;
+          /* 영상 슬라이드에 오면 재생, 벗어나면 멈춤 (움직임 줄이기 사용자는 직접 재생) */
+          if (i === 1 && !reduce) video.play().catch(() => {});
+          else if (i !== 1) video.pause();
+        };
+        track.addEventListener('scroll', () => requestAnimationFrame(update), { passive: true });
+        addEventListener('resize', () => { track.scrollLeft = idx * track.clientWidth; });
+        prev.addEventListener('click', () => go(idx - 1));
+        next.addEventListener('click', () => go(idx + 1));
+        play.addEventListener('click', () => go(1));
+        track.addEventListener('keydown', e => {
+          if (e.key === 'ArrowRight' && idx < N - 1) { e.preventDefault(); go(idx + 1); }
+          if (e.key === 'ArrowLeft' && idx > 0) { e.preventDefault(); go(idx - 1); }
+        });
+        update();
+      })();
+    </script>
 
     <section class="dt__sec">
       <h2><span>(01)</span>OVERVIEW</h2>
@@ -69,15 +122,6 @@
           <div><dt>원인 · 과정</dt><dd>기능은 분명히 동작하는데 "의도한 선택"과 "우연히 걸친 손"을 구분하지 못하는 것이 원인이라고 보았습니다. 오류를 고치는 문제가 아니라, 사용자가 어떤 행동을 선택이라고 느끼는가를 다시 정의해야 하는 문제였습니다.</dd></div>
           <div><dt>해결</dt><dd>올려 두기만 해도 선택되던 입력 방식을 변경하고, 연속 입력을 막는 처리를 추가했습니다.</dd></div>
           <div><dt>배운 점</dt><dd>인터랙션은 기능을 구현하는 것에서 끝나지 않고, 사용자가 의도한 방식으로 작동하는지 세밀하게 검토하는 과정까지 포함한다는 것을 배웠습니다.</dd></div>
-        </dl>
-      </article>
-      <article class="ts">
-        <h3>어두운 전시장에서 손 인식이 되지 않는 문제</h3>
-        <dl>
-          <div><dt>문제</dt><dd>어두운 전시 환경에서는 일반 웹캠 영상으로 손 위치를 안정적으로 인식하기 어렵습니다.</dd></div>
-          <div><dt>원인 · 과정</dt><dd>MediaPipe Hands는 카메라 영상에서 손을 찾기 때문에, 영상 자체가 어두우면 인식도 불안정해집니다. 코드를 고치기보다 입력으로 들어오는 영상을 바꿔야 한다고 판단해, 밝기에 영향을 덜 받는 카메라를 찾았습니다.</dd></div>
-          <div><dt>해결</dt><dd>Windows Hello 적외선(IR) 카메라 입력을 지원하도록 구현했습니다.</dd></div>
-          <div><dt>배운 점</dt><dd>내 책상 위에서 잘 되는 것과 실제 전시장에서 잘 되는 것은 다릅니다. 결과물이 놓일 환경을 먼저 떠올리고 설계해야 한다는 것을 배웠습니다.</dd></div>
         </dl>
       </article>
       <p class="dt__txt">구현 과정에서 예상과 다른 결과가 나타나면 기능만 고치고 넘어가지 않고, 원인을 찾아 해결될 때까지 파고드는 것을 원칙으로 삼고 있습니다.</p>

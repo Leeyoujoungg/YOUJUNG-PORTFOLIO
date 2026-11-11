@@ -1,5 +1,7 @@
-﻿:root{
+:root{
   --ink:#0a0a0a; --bg:#fff; --gray:#d9d9d9; --paper:#efeae4; --mute:#8a8a8a;
+  --line:#3d8fd0; /* 파랑 = 연결선 (과정) : 선 · BAR */
+  --hl:#f4e86d;   /* 노랑 = 점 (결과·포인트) : 점 · 형광펜. 원래 메인의 노란 선 색 */
   --pad:clamp(20px,4.5vw,64px);
   --en:'Inter','Noto Sans KR',sans-serif; --kr:'Noto Sans KR','Inter',sans-serif;
 }
@@ -29,11 +31,6 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:54px;z-index:
 .reveal.in{opacity:1;transform:none}
 
 main{position:relative;overflow-x:clip}
-.flow{position:absolute;left:0;top:0;width:100%;height:100vh;z-index:1;overflow:visible;pointer-events:none;will-change:transform}
-.flow line{stroke-width:12;stroke-linecap:butt}
-/* 스크롤에 따라 이어서 그려지는 선 (콘텐츠 뒤) */
-.trail{position:absolute;left:0;top:0;width:100%;height:100%;z-index:-1;overflow:visible;pointer-events:none}
-.trail g{stroke-linecap:round}
 
 /* 텍스트 블록: 아무 영향도 받지 않는 완전한 흰색 */
 .pitem__info,.abt__body,.skl__group,.cts__hero>div:first-child,.cts__links,.cts__form{background:#fff}
@@ -120,23 +117,19 @@ body.modal-open{overflow:hidden}
 .pshow__title{position:relative;font:900 clamp(44px,7vw,130px)/1 var(--en);letter-spacing:-.04em}
 .pshow__title span{position:absolute;right:100%;margin-right:.3em;bottom:.12em;font:600 clamp(14px,1.2vw,18px)/1 var(--en);letter-spacing:0;color:var(--mute)}
 .pshow__count{font:600 clamp(11px,.9vw,13px)/1 var(--en);letter-spacing:.14em;color:var(--mute);padding-bottom:.6em}
-.pshow__sub{font:400 clamp(34px,5vw,96px)/1 var(--en);letter-spacing:-.03em;margin:clamp(90px,10vw,180px) 0 clamp(28px,3vw,48px)}
-.pshow__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(40px,4.5vw,76px) clamp(24px,2.5vw,40px)}
+.pshow__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(40px,4vw,64px) clamp(20px,2vw,32px)}
 
 .pitem{position:relative;cursor:pointer;background:#fff}
 .pitem:focus-visible{outline:2px solid var(--ink);outline-offset:8px}
 .pitem__media{position:relative;overflow:hidden;background:var(--gray)}
 .pitem__thumb{aspect-ratio:4/3;background:var(--gray) center/cover no-repeat;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
-.pitem--main .pitem__thumb{aspect-ratio:2/1}
 .pitem:hover .pitem__thumb{transform:scale(1.03)}
-.pitem__tag{position:absolute;left:0;top:0;background:var(--ink);color:#fff;padding:8px 14px;font:700 clamp(10px,.85vw,12px)/1 var(--en);letter-spacing:.12em}
 .pitem__info{padding:clamp(14px,1.2vw,20px) 0 0}
 .pitem__meta{display:flex;align-items:center;gap:12px;margin-bottom:8px;font:700 clamp(10px,.85vw,12px)/1 var(--en);letter-spacing:.12em;color:var(--mute)}
 .pitem__meta span:first-child{color:var(--ink)}
 .pitem__arrow{margin-left:auto;font:400 clamp(18px,1.6vw,26px)/1 var(--en);color:var(--ink);font-style:normal;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
 .pitem:hover .pitem__arrow{transform:translate(4px,-4px)}
 .pitem__info h3{font:800 clamp(18px,1.6vw,24px)/1.3 var(--kr)}
-.pitem--main .pitem__info h3{font-size:clamp(24px,2.6vw,40px)}
 .pitem__info h3 em{font:600 clamp(11px,.9vw,14px) var(--kr);font-style:normal;color:var(--mute);margin-left:.5em}
 .pitem__info p{font:400 clamp(13px,1vw,15px)/1.6 var(--kr);color:#333;margin-top:2px}
 .pitem__info small{display:block;font:400 clamp(11px,.85vw,13px)/1.6 var(--kr);color:var(--mute)}
@@ -147,6 +140,8 @@ body.modal-open{overflow:hidden}
   .pshow__title span{position:static;display:block;margin:0 0 8px}
   .pshow__deco{width:46vw}
 }
+@media (max-width:1100px){.pshow__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.pshow__grid{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.pitem__thumb,.pitem__arrow{transition:none}}
 /* ---------- ABOUT v2 · 에디토리얼 ---------- */
 [hidden]{display:none !important}
@@ -201,14 +196,25 @@ body.modal-open{overflow:hidden}
 .skl__group li:hover{background:var(--ink);color:#fff}
 .skl__no{font:700 clamp(11px,.9vw,13px)/1 var(--en);color:var(--mute)}
 .skl__group li b{font:800 clamp(24px,2.7vw,40px)/1.15 var(--en);letter-spacing:-.03em}
-.skl__group li p{font:400 clamp(13px,1.1vw,17px)/1.5 var(--kr);opacity:.8}
+.skl__group li p{font:400 clamp(13px,1.1vw,17px)/1.5 var(--kr);opacity:.8;transform-origin:left center;transition:transform .35s cubic-bezier(.2,.7,.2,1),opacity .35s}
+/* 호버 : 설명은 작고 연하게 아래로, 그 위에 숙련도 BAR + 수치 */
+.skl__desc{position:relative}
+.skl__bar{position:absolute;left:0;right:0;bottom:calc(100% - 4px);display:flex;align-items:center;gap:12px;opacity:0;transform:translateY(6px);transition:opacity .3s,transform .35s cubic-bezier(.2,.7,.2,1);pointer-events:none}
+.skl__bar i{position:relative;flex:1;height:4px;background:rgba(255,255,255,.22);overflow:hidden}
+.skl__bar i::after{content:"";position:absolute;inset:0;width:calc(var(--v) * 1%);background:var(--line);transform:scaleX(0);transform-origin:left;transition:transform .7s cubic-bezier(.2,.7,.2,1) .05s}
+.skl__bar em{font:800 clamp(14px,1.1vw,18px)/1 var(--en);font-style:normal;min-width:3.2em;text-align:right}
+.skl__group li:hover .skl__bar{opacity:1;transform:none}
+.skl__group li:hover .skl__bar i::after{transform:scaleX(1)}
+.skl__group li:hover p{transform:translateY(12px) scale(.82);opacity:.5}
+@media (prefers-reduced-motion:reduce){.skl__bar,.skl__bar i::after,.skl__group li p{transition:none}}
 .skl__used{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
 .skl__used a{font:500 clamp(12px,.95vw,14px)/1.6 var(--kr);border:1.5px solid currentColor;border-radius:99px;padding:2px 14px;transition:background .2s,color .2s}
 .skl__used a:hover,.skl__used a:focus-visible{background:var(--ink);color:#fff}
 .skl__group li:hover .skl__used a:hover,.skl__group li:hover .skl__used a:focus-visible{background:#fff;color:var(--ink)}
 @media (max-width:860px){
   .skl__group li{grid-template-columns:36px minmax(0,1fr);row-gap:6px}
-  .skl__group li p,.skl__used{grid-column:2}
+  .skl__group li .skl__desc,.skl__used{grid-column:2}
+  .skl__desc{margin-top:22px}
   .skl__used{justify-content:flex-start}
   .skl__count{display:none}
 }
@@ -223,7 +229,7 @@ body.modal-open{overflow:hidden}
 .cts__hero{display:flex;align-items:flex-end;justify-content:space-between;gap:clamp(20px,4vw,64px);margin-bottom:clamp(48px,6vw,96px)}
 .cts__big{font:900 clamp(40px,8.4vw,160px)/.98 var(--en);letter-spacing:-.045em}
 .cts__lead{margin-top:clamp(16px,2vw,32px);font:400 clamp(14px,1.2vw,19px)/1.7 var(--kr);color:#444}
-.cts__tower{flex:none;height:clamp(120px,19vw,300px);aspect-ratio:614/911}
+.cts__tower{flex:none;height:clamp(180px,27vw,440px);aspect-ratio:614/911}
 .cts__grid{display:grid;grid-template-columns:7fr 5fr;gap:clamp(32px,6vw,110px);align-items:start}
 .cts__links{border-top:1.5px solid var(--ink);list-style:none}
 .cts__links a{display:grid;grid-template-columns:clamp(70px,8vw,120px) 1fr auto;align-items:center;gap:clamp(10px,1.5vw,24px);min-height:clamp(104px,7vw,112px);padding:0 clamp(8px,1vw,16px);border-bottom:1.5px solid var(--ink);transition:background .25s,color .25s}
@@ -239,14 +245,14 @@ body.modal-open{overflow:hidden}
 .cts__form .btn{margin-top:20px}
 @media (max-width:860px){
   .cts__grid{grid-template-columns:1fr}
-  .cts__tower{height:clamp(100px,26vw,180px)}
+  .cts__tower{height:clamp(140px,34vw,240px)}
 }
 @media (max-width:720px){.cts__title span{position:static;display:block;margin:0 0 8px}.cts__links a{grid-template-columns:70px 1fr auto}}
 .cts .foot{max-width:1440px;margin:clamp(60px,9vw,130px) auto 0;width:calc(100% - 2*clamp(20px,6vw,115px))}
 
 /* ---------- HERO v2 · 왼쪽 타이틀 / 오른쪽 돌탑 ---------- */
 .hero2{position:relative;min-height:100vh;min-height:100svh;overflow:hidden;display:flex;align-items:center;padding:110px 0 90px}
-.hero2__wrap{position:relative;z-index:2;width:100%;max-width:1440px;margin:0 auto;padding:0 clamp(20px,6vw,115px);display:grid;grid-template-columns:11fr 9fr;gap:clamp(16px,3vw,56px);align-items:center}
+.hero2__wrap{position:relative;z-index:2;width:100%;max-width:1760px;margin:0 auto;padding:0 clamp(20px,5vw,96px);display:grid;grid-template-columns:11fr 9fr;gap:clamp(16px,3vw,56px);align-items:center}
 .hero2__main{will-change:opacity,transform}
 .hero2__eyebrow{font:700 clamp(11px,.9vw,13px)/1 var(--en);letter-spacing:.14em;color:var(--mute);margin-bottom:clamp(14px,1.6vw,24px)}
 .hero2__title{font:900 clamp(44px,9vw,170px)/.94 var(--en);letter-spacing:-.05em}
@@ -255,22 +261,104 @@ body.modal-open{overflow:hidden}
 .is-done .hero2__title span{transform:none;opacity:1}
 .hero2__big{margin-top:clamp(20px,2.6vw,40px);font:800 clamp(18px,2.2vw,36px)/1.15 var(--en);letter-spacing:-.03em}
 .hero2__kr{margin-top:clamp(8px,1vw,14px);font:400 clamp(14px,1.2vw,19px)/1.6 var(--kr);color:#444}
-.hero2__works{margin-top:clamp(28px,3.4vw,56px)}
-.hero2__works p{font:700 clamp(10px,.8vw,12px)/1 var(--en);letter-spacing:.14em;color:var(--mute);margin-bottom:12px}
-.hero2__works ul{display:flex;gap:clamp(8px,.9vw,14px)}
-.hero2__works a{position:relative;display:block}
-.hero2__thumb{display:block;width:clamp(52px,5.6vw,92px);aspect-ratio:1;background:var(--gray) center/cover no-repeat;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s cubic-bezier(.2,.7,.2,1)}
-.hero2__works a:hover .hero2__thumb,.hero2__works a:focus-visible .hero2__thumb{transform:translate(-4px,-4px);box-shadow:4px 4px 0 var(--ink)}
 .hero2__scroll{position:absolute;z-index:3;left:50%;bottom:26px;transform:translateX(-50%);font:700 clamp(16px,1.4vw,22px)/1 var(--en)}
-.hero2__works em{position:absolute;left:0;top:calc(100% + 8px);white-space:nowrap;font:700 clamp(11px,.9vw,13px)/1 var(--kr);font-style:normal;opacity:0;transform:translateY(-4px);transition:opacity .25s,transform .25s}
-.hero2__works a:hover em,.hero2__works a:focus-visible em{opacity:1;transform:none}
-.hero2__tower{justify-self:center;height:min(76vh,760px);aspect-ratio:614/911;transform:translate3d(var(--mx,0px),var(--py,0px),0) perspective(1000px) rotateY(var(--ry,0deg)) rotateX(var(--rx,0deg));transition:transform .25s ease-out}
+.hero2__tower{position:relative;justify-self:center;height:min(88vh,900px);aspect-ratio:614/911}
+/* 돌만 마우스·스크롤에 반응 (연결선 레이어 .tower__ov는 고정) */
+.hero2__tower>svg.tower:first-child{transform:translate3d(var(--mx,0px),calc(var(--py,0px) + var(--my,0px)),0) perspective(1000px) rotateY(var(--ry,0deg)) rotateX(var(--rx,0deg));transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.tower__ov{position:absolute;inset:0;pointer-events:none}
 @media (max-width:860px){
   .hero2{align-items:flex-start;padding-top:96px}
   .hero2__wrap{grid-template-columns:1fr}
   .hero2__tower{height:min(40vh,340px);margin-top:8px}
-  .hero2__works a:hover em{opacity:0}
 }
-@media (prefers-reduced-motion:reduce){.hero2__title span{transition:none;transform:none;opacity:1}.hero2__tower{transition:none}}
+@media (prefers-reduced-motion:reduce){.hero2__title span{transition:none;transform:none;opacity:1}.hero2__tower>svg{transition:none}}
 
 
+
+/* 돌탑의 세 층 태그 + 연결선 (좌표 단위 = 돌탑 viewBox). 원래의 파란 선을 '연결선'으로 재해석 */
+.tlink{fill:none;stroke:var(--line);stroke-width:10;stroke-linecap:butt;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.4s cubic-bezier(.6,0,.2,1) .4s}
+.ttag{opacity:0;transform:translateY(10px);transition:opacity .5s ease,transform .5s ease;transition-delay:calc(1s + var(--i) * .2s)}
+.ttag circle{fill:var(--hl);stroke:var(--line);stroke-width:3}
+.ttag rect{fill:#fff}
+.ttag text{font:800 19px/1 var(--en);letter-spacing:.1em;fill:var(--ink)}
+.ttag tspan{fill:var(--mute)}
+.is-done .tlink{stroke-dashoffset:0}
+.is-done .ttag{opacity:1;transform:none}
+.hero2__big b{color:var(--ink);font-weight:800;padding:0 .08em;background:linear-gradient(transparent 52%,var(--hl) 52%,var(--hl) 94%,transparent 94%);-webkit-box-decoration-break:clone;box-decoration-break:clone}
+@media (prefers-reduced-motion:reduce){.tlink,.ttag{transition:none}}
+/* SELECTED WORK ↓ : 아래 프로젝트로 이동 */
+.hero2__works{display:inline-flex;align-items:center;gap:8px;margin-top:clamp(28px,3.4vw,56px);font:700 clamp(11px,.85vw,13px)/1 var(--en);letter-spacing:.14em;color:var(--mute);transition:color .25s}
+.hero2__works i{font-style:normal;font-weight:400;font-size:1.15em;line-height:1;color:inherit;animation:worksBob 1.8s ease-in-out infinite}
+.hero2__works:hover,.hero2__works:focus-visible{color:var(--ink)}
+@keyframes worksBob{0%,100%{transform:translateY(0)}50%{transform:translateY(3px)}}
+@media (prefers-reduced-motion:reduce){.hero2__works i{animation:none}}
+
+/* ================= INTERACTION ================= */
+.hero2__head{position:relative}
+.hero2__title span{will-change:transform}
+
+/* 메인 : 돌이 아래부터 하나씩 내려와 쌓임 → 연결선 → 태그 */
+.hero2__tower .stone{opacity:0;animation:stoneDrop .8s cubic-bezier(.2,.8,.2,1) calc(.2s + var(--i) * .11s) both}
+@keyframes stoneDrop{from{opacity:0;transform:translateY(-90px)}to{opacity:1;transform:none}}
+.hero2__tower .tlink{transition-delay:1s}
+.hero2__tower .ttag{transition-delay:calc(1.4s + var(--i) * .18s)}
+
+/* 섹션 제목 : 아래에서 마스크를 뚫고 올라옴 */
+.pshow__title,.abt__title,.skl__title,.cts__title{clip-path:inset(100% -50% -30% -50%);transform:translateY(60px);transition:clip-path 1s cubic-bezier(.7,0,.2,1),transform 1s cubic-bezier(.7,0,.2,1)}
+.pshow__head.in .pshow__title,.reveal.in .abt__title,.reveal.in .skl__title,.reveal.in .cts__title{clip-path:inset(-30% -50% -30% -50%);transform:none}
+
+/* 프로젝트 카드 : 이미지가 아래에서 위로 닦이며 등장 + 순서대로 */
+.pitem.reveal{transform:none;opacity:1;transition:none}
+.pitem.reveal .pitem__media{clip-path:inset(100% 0 0 0);transition:clip-path 1s cubic-bezier(.7,0,.2,1) var(--d,0s)}
+.pitem.reveal .pitem__thumb{transform:scale(1.25);transition:transform 1.4s cubic-bezier(.2,.7,.2,1) var(--d,0s)}
+.pitem.reveal .pitem__info{opacity:0;transform:translateY(20px);transition:opacity .7s ease calc(var(--d,0s) + .35s),transform .7s cubic-bezier(.2,.7,.2,1) calc(var(--d,0s) + .35s)}
+.pitem.reveal.in .pitem__media{clip-path:inset(0)}
+.pitem.reveal.in .pitem__thumb{transform:none}
+.pitem.reveal.in:hover .pitem__thumb{transform:scale(1.03);transition-delay:0s}
+.pitem.reveal.in .pitem__info{opacity:1;transform:none}
+
+/* 스킬 : 줄마다 왼쪽에서 순서대로 */
+.skl__group li{opacity:0;transform:translateX(-40px)}
+.skl__group.in li{opacity:1;transform:none;transition:background .25s,color .25s,opacity .6s ease calc(var(--d,0s)),transform .8s cubic-bezier(.2,.7,.2,1) calc(var(--d,0s))}
+
+/* 어바웃 사진 : 위에서 아래로 열림 */
+.abt__photo.reveal{position:relative;transform:none}
+.abt__photo.reveal::after{content:"";position:absolute;inset:0;background:#fff;transform-origin:bottom;transition:transform 1.2s cubic-bezier(.7,0,.2,1) .1s}
+.abt__photo.reveal.in::after{transform:scaleY(0)}
+
+@media (prefers-reduced-motion:reduce){
+  .hero2__tower .stone,.pshow__title,.abt__title,.skl__title,.cts__title,.pitem.reveal .pitem__media,.pitem.reveal .pitem__thumb,.pitem.reveal .pitem__info,.skl__group li{animation:none;transition:none;opacity:1;transform:none;clip-path:none}
+  .abt__photo.reveal::after{display:none}
+}
+
+/* ================= 돌탑 언어를 모든 섹션으로 ================= */
+/* 공통 '층 표시' : 돌탑 층 끝점처럼 지그재그로 놓인 점 + 얇은 연결선 (맡은 층만 파랑) */
+.lyr{display:block;margin-top:14px;line-height:0}
+.lyr svg{display:block;width:210px;height:34px;overflow:visible}
+.lyr__ln{stroke:#dcdcdc;stroke-width:1}
+.lyr__ln.is-on{stroke:var(--line)}
+.lyr__i circle{fill:#fff;stroke:#cfcfcf;stroke-width:1.2}
+.lyr__i text{font:700 9px var(--en);letter-spacing:.12em;fill:#b5b5b5}
+.lyr__i.is-on circle{fill:var(--hl);stroke:var(--line);stroke-width:1}
+.lyr__i.is-on text{fill:var(--ink)}
+.skl__group h3{align-items:center}
+.pshow__title span,.skl__title span,.cts__title span{color:var(--ink);padding:0 .15em;background:linear-gradient(transparent 52%,var(--hl) 52%,var(--hl) 94%,transparent 94%);-webkit-box-decoration-break:clone;box-decoration-break:clone}
+
+/* ABOUT : WHAT I DO = 돌탑의 세 층을 옆으로 펼친 것. 돌 + 점 + 연결선 → EXPERIENCE */
+.abt__what ol{position:relative}
+.abt__what ol::before{content:"";position:absolute;left:6px;right:0;top:69px;height:1px;background:var(--line);transform:scaleX(0);transform-origin:left;transition:transform 1.3s cubic-bezier(.7,0,.2,1) .3s}
+.abt__what ol::after{content:"EXPERIENCE →";position:absolute;right:0;top:50px;font:800 10px/1 var(--en);letter-spacing:.14em;color:var(--ink);padding:0 .2em;background:linear-gradient(transparent 52%,var(--hl) 52%,var(--hl) 94%,transparent 94%);-webkit-box-decoration-break:clone;box-decoration-break:clone;opacity:0;transition:opacity .5s 1.4s}
+.abt__what.in ol::before{transform:none}
+.abt__what.in ol::after{opacity:1}
+.abt__stone{display:flex!important;align-items:flex-end;height:56px;margin:0!important}
+.abt__stone img{height:100%;width:auto;max-width:100%;object-fit:contain;object-position:left bottom}
+.abt__dot{position:relative;z-index:1;display:block;width:14px;height:14px;margin:6px 0 16px;border-radius:50%;background:var(--hl);border:1.5px solid var(--line);box-sizing:border-box}
+
+@media (max-width:860px){.abt__what ol::before,.abt__what ol::after{display:none}}
+@media (prefers-reduced-motion:reduce){.abt__what ol::before,.abt__what ol::after{transition:none}}
+
+/* 가만히 있어도 보이는 움직임 (6초 반복)
+   태그는 고정, 돌들만 살짝 움직임 */
+.hero2__tower .stone{animation:stoneDrop .8s cubic-bezier(.2,.8,.2,1) calc(.2s + var(--i) * .11s) both,stoneNudge 6s ease-in-out calc(5s + var(--i) * .06s) infinite}
+@keyframes stoneNudge{0%,18%,100%{translate:0 0}6%{translate:0 calc(-3px - var(--i) * 1.4px)}12%{translate:0 1px}}
+@media (prefers-reduced-motion:reduce){.hero2__tower .stone{animation:none;opacity:1}}

@@ -4,21 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>YOUJUNG PORTFOLIO — 이유정</title>
-  <meta name="description" content="작은 문제에서 새로운 가능성을 찾는 이유정의 포트폴리오">
+  <meta name="description" content="기획과 디자인, 개발을 연결해 경험을 만드는 이유정의 포트폴리오">
   <link rel="icon" href="assets/favicon.svg?v=3" type="image/svg+xml">
   <link rel="icon" href="assets/favicon-64.png?v=3" type="image/png" sizes="64x64">
   <link rel="shortcut icon" href="assets/favicon.ico?v=3">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=3">
   <meta property="og:type" content="website">
   <meta property="og:title" content="YOUJUNG PORTFOLIO — 이유정">
-  <meta property="og:description" content="작은 문제에서 새로운 가능성을 찾는 이유정의 포트폴리오">
+  <meta property="og:description" content="기획과 디자인, 개발을 연결해 경험을 만드는 이유정의 포트폴리오">
   <meta property="og:url" content="https://leeyoujoungg.github.io/YOJG/">
   <meta property="og:image" content="https://leeyoujoungg.github.io/YOJG/assets/og.png">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=20261112j">
 </head>
 <body>
   <!-- 좌측 상단 로고 (스크롤 시 등장, 클릭 시 메인으로) -->
@@ -34,38 +34,20 @@
   </nav>
 
   <main>
-    <!-- 이어지는 선: 파랑(위→아래) → 검정(꺾여 PROJECT까지) ┬ 노랑(검정에서 갈라짐). 좌표는 main.js가 계산 -->
-    <svg class="flow" aria-hidden="true">
-      <line id="flowBlue" stroke="#5BA8D8"/>
-      <line id="flowBlack" stroke="#111"/>
-      <line id="flowYellow" stroke="#f4e86d"/>
-    </svg>
-    <!-- 스크롤하면 메인 선이 아래 섹션으로 이어지며 그려짐 (좌표는 main.js가 계산) -->
-    <svg class="trail" id="trail" aria-hidden="true">
-      <g id="trailBlue" stroke="#5BA8D8"></g>
-      <g id="trailBlack" stroke="#111"></g>
-      <g id="trailYellow" stroke="#f4e86d"></g>
-    </svg>
     <!-- HOME -->
     <section class="hero2" id="home" data-section>
       <div class="hero2__wrap">
         <div class="hero2__main" id="heroMain">
           <p class="hero2__eyebrow">DESIGN &amp; INTERACTION DEVELOPER</p>
-          <h1 class="hero2__title" aria-label="YOJG PORTFOLIO"><span>YOJG</span><span>PORTFOLiO</span></h1>
-          <p class="hero2__big">SMALL PROBLEM,<br>NEW POSSIBILITY</p>
-          <p class="hero2__kr">작은 문제에서 새로운 가능성을 찾는<br>이유정의 포트폴리오</p>
-          <div class="hero2__works">
-            <p>SELECTED WORK</p>
-            <ul>
-              <li><a href="#pj-malmoi" data-goto="pj-malmoi"><span class="hero2__thumb" style="background-image:url(assets/p-malmoi.webp)"></span><em>말모이</em></a></li>
-              <li><a href="#pj-div" data-goto="pj-div"><span class="hero2__thumb" style="background-image:url(assets/p-div.webp)"></span><em>DIV</em></a></li>
-              <li><a href="#pj-islife" data-goto="pj-islife"><span class="hero2__thumb" style="background-image:url(assets/p-islife.webp)"></span><em>Is Life</em></a></li>
-              <li><a href="#pj-dojagi" data-goto="pj-dojagi"><span class="hero2__thumb" style="background-image:url(assets/p-dojagi.webp)"></span><em>도자기</em></a></li>
-              <li><a href="#pj-thailand" data-goto="pj-thailand"><span class="hero2__thumb" style="background-image:url(assets/p-thailand.webp)"></span><em>Thailand</em></a></li>
-            </ul>
+          <div class="hero2__head">
+            <h1 class="hero2__title" aria-label="YOJG PORTFOLIO"><span>YOJG</span><span>PORTFOLiO</span></h1>
           </div>
+          <p class="hero2__big">PLAN · DESIGN · BUILD<br><b>INTO EXPERIENCE</b></p>
+          <p class="hero2__kr">기획과 디자인, 개발을 연결해<br>경험을 만듭니다.</p>
+          <a class="hero2__works" href="#projects">SELECTED WORK<i aria-hidden="true">↓</i></a>
         </div>
-        <div class="hero2__tower" id="heroTower" data-tower aria-hidden="true"></div>
+        <!-- 돌탑 : 아래부터 PLAN → DESIGN → BUILD 층, 파란 연결선이 세 층을 꿰어 위로 이어짐 -->
+        <div class="hero2__tower" id="heroTower" data-tower data-layers aria-hidden="true"></div>
       </div>
     </section>
 
@@ -73,51 +55,45 @@
     <section class="pshow" id="projects" data-section>
       <i class="pshow__deco pshow__deco--bottom" aria-hidden="true"></i>
       <div class="pshow__wrap">
-        <header class="pshow__head">
-          <h2 class="pshow__title"><span>(01)</span>PROJECT</h2>
-          <p class="pshow__count">05 WORKS</p>
-        </header>
+        <header class="pshow__head reveal">
+          <h2 class="pshow__title"><span>(01)</span>PROJECT</h2>        </header>
 
-        <!-- 대표 프로젝트 : 클릭하면 상세 페이지(malmoi.html)로 이동 -->
-        <article class="pitem pitem--main reveal" id="pj-malmoi" data-project="0" data-href="malmoi.html" tabindex="0" role="link">
-          <div class="pitem__media">
-            <div class="pitem__thumb"></div>
-            <span class="pitem__tag">01 / FEATURED PROJECT</span>
-          </div>
-          <div class="pitem__info">
-            <div class="pitem__meta"><span>01</span><span>INTERACTIVE GAME</span><i class="pitem__arrow" aria-hidden="true">↗</i></div>
-            <h3>말모이 <em>8인 프로젝트 · 메인</em></h3><p>잊고 있던 감정 단어를 찾는 인터랙티브 체험형 리듬게임</p><small>기획 · 디자인 · 프로그래밍 · 2026.09 ~ 진행 중</small>
-          </div>
-        </article>
-
-        <h3 class="pshow__sub">SUB PROJECTS</h3>
+        <!-- 5개 프로젝트를 같은 크기 카드로 : 이름 · 유형 · 역할 · 한 줄 제작 의도 -->
         <div class="pshow__grid">
+          <!-- 말모이 : 클릭하면 상세 페이지(malmoi.html)로 이동 -->
+          <article class="pitem reveal" id="pj-malmoi" data-project="0" data-href="malmoi.html" tabindex="0" role="link">
+            <div class="pitem__media"><div class="pitem__thumb"></div></div>
+            <div class="pitem__info">
+              <div class="pitem__meta"><span>01</span><span>INTERACTIVE GAME</span><i class="pitem__arrow" aria-hidden="true">↗</i></div>
+              <h3>말모이 <em>8인 프로젝트 · 메인</em></h3><p>잊고 있던 감정 단어를 찾는 인터랙티브 체험형 리듬게임</p><small>기획 · 디자인 · 프로그래밍 · 2026.09 ~ 진행 중</small><div class="lyr" data-lyr="B"></div>
+            </div>
+          </article>
           <article class="pitem reveal" id="pj-div" data-project="1" tabindex="0" role="button">
             <div class="pitem__media"><div class="pitem__thumb"></div></div>
             <div class="pitem__info">
               <div class="pitem__meta"><span>02</span><span>WEB / UI DESIGN</span><i class="pitem__arrow" aria-hidden="true">↗</i></div>
-              <h3>DIV <em>3인 프로젝트</em></h3><p>기부 이후 경험을 연결하는 기부 서비스 소개 웹사이트</p><small>웹 디자인 · 프로그래밍 · 2026.03 ~ 06</small>
+              <h3>DIV <em>3인 프로젝트</em></h3><p>기부 이후 경험을 연결하는 기부 서비스 소개 웹사이트</p><small>웹 디자인 · 프로그래밍 · 2026.03 ~ 06</small><div class="lyr" data-lyr="DB"></div>
             </div>
           </article>
           <article class="pitem reveal" id="pj-islife" data-project="2" tabindex="0" role="button">
             <div class="pitem__media"><div class="pitem__thumb"></div></div>
             <div class="pitem__info">
               <div class="pitem__meta"><span>03</span><span>SERIOUS GAME</span><i class="pitem__arrow" aria-hidden="true">↗</i></div>
-              <h3>Is Life <em>1인 프로젝트</em></h3><p>경제적 불안정 삶을 체험하는 시리어스 게임</p><small>2026.05 ~ 06</small>
+              <h3>Is Life <em>1인 프로젝트</em></h3><p>경제적 불안정 삶을 체험하는 시리어스 게임</p><small>2026.05 ~ 06</small><div class="lyr" data-lyr="PDB"></div>
             </div>
           </article>
           <article class="pitem reveal" id="pj-dojagi" data-project="3" tabindex="0" role="button">
             <div class="pitem__media"><div class="pitem__thumb"></div></div>
             <div class="pitem__info">
               <div class="pitem__meta"><span>04</span><span>WEB / EDITORIAL</span><i class="pitem__arrow" aria-hidden="true">↗</i></div>
-              <h3>도자기 <em>1인 프로젝트</em></h3><p>한국 전통 도자기를 소개하는 웹사이트</p><small>2026.05 ~ 06</small>
+              <h3>도자기 <em>1인 프로젝트</em></h3><p>한국 전통 도자기를 소개하는 웹사이트</p><small>2026.05 ~ 06</small><div class="lyr" data-lyr="PDB"></div>
             </div>
           </article>
           <article class="pitem reveal" id="pj-thailand" data-project="4" tabindex="0" role="button">
             <div class="pitem__media"><div class="pitem__thumb"></div></div>
             <div class="pitem__info">
               <div class="pitem__meta"><span>05</span><span>GRAPHIC / WEB DESIGN</span><i class="pitem__arrow" aria-hidden="true">↗</i></div>
-              <h3>Thailand <em>1인 프로젝트</em></h3><p>태국 음식 문화를 소개하는 웹페이지 디자인</p><small>웹 디자인 · 2024.09 ~ 12</small>
+              <h3>Thailand <em>1인 프로젝트</em></h3><p>태국 음식 문화를 소개하는 웹페이지 디자인</p><small>웹 디자인 · 2024.09 ~ 12</small><div class="lyr" data-lyr="PDB"></div>
             </div>
           </article>
         </div>
@@ -139,9 +115,9 @@
             <div class="abt__what reveal">
               <h4>WHAT I DO</h4>
               <ol>
-                <li><span>01</span><b>PLAN</b><p>아이디어와 구조 설계</p></li>
-                <li><span>02</span><b>DESIGN</b><p>시각적 경험 구성</p></li>
-                <li><span>03</span><b>BUILD</b><p>인터랙션 구현</p></li>
+                <li><span class="abt__stone"><img src="assets/tower/base.png" alt=""></span><i class="abt__dot"></i><span>01</span><b>PLAN</b><p>아이디어와 구조 설계</p></li>
+                <li><span class="abt__stone"><img src="assets/tower/disc.png" alt=""></span><i class="abt__dot"></i><span>02</span><b>DESIGN</b><p>시각적 경험 구성</p></li>
+                <li><span class="abt__stone"><img src="assets/tower/egg.png" alt=""></span><i class="abt__dot"></i><span>03</span><b>BUILD</b><p>인터랙션 구현</p></li>
               </ol>
             </div>
           </div>
@@ -158,23 +134,23 @@
     <!-- SKILLS -->
     <section class="skl" id="skills" data-section>
       <div class="skl__wrap">
-        <header class="skl__head reveal"><h2 class="skl__title"><span>(02)</span>SKILLS</h2><p class="skl__count">08 TOOLS · 클릭하면 사용한 프로젝트로 이동</p></header>
+        <header class="skl__head reveal"><h2 class="skl__title"><span>(02)</span>SKILLS</h2><p class="skl__count">TOOLS · 클릭하면 사용한 프로젝트로 이동</p></header>
         <div class="skl__group reveal">
           <h3><b>DEVELOPMENT</b><small>01 — 05</small></h3>
           <ul>
-            <li><span class="skl__no">01</span><b>HTML</b><p>웹 문서 구조 설계</p><span class="skl__used"><a href="#pj-div" data-goto="pj-div">DIV</a><a href="#pj-islife" data-goto="pj-islife">Is Life</a><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a></span></li>
-            <li><span class="skl__no">02</span><b>CSS</b><p>레이아웃 및 스타일 구현</p><span class="skl__used"><a href="#pj-div" data-goto="pj-div">DIV</a><a href="#pj-islife" data-goto="pj-islife">Is Life</a><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a></span></li>
-            <li><span class="skl__no">03</span><b>JavaScript</b><p>동적 기능과 인터랙션 구현</p><span class="skl__used"><a href="#pj-div" data-goto="pj-div">DIV</a><a href="#pj-islife" data-goto="pj-islife">Is Life</a><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a></span></li>
-            <li><span class="skl__no">04</span><b>React</b><p>컴포넌트 기반 UI 개발</p><span class="skl__used"><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a></span></li>
-            <li><span class="skl__no">05</span><b>Unity (C#)</b><p>게임 로직 및 인터랙션 구현</p><span class="skl__used"><a href="#pj-malmoi" data-goto="pj-malmoi">말모이</a></span></li>
+            <li data-level="90"><span class="skl__no">01</span><b>HTML</b><p>웹 문서 구조 설계</p><span class="skl__used"><a href="#pj-div" data-goto="pj-div">DIV</a><a href="#pj-islife" data-goto="pj-islife">Is Life</a><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a></span></li>
+            <li data-level="85"><span class="skl__no">02</span><b>CSS</b><p>레이아웃 및 스타일 구현</p><span class="skl__used"><a href="#pj-div" data-goto="pj-div">DIV</a><a href="#pj-islife" data-goto="pj-islife">Is Life</a><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a></span></li>
+            <li data-level="70"><span class="skl__no">03</span><b>JavaScript</b><p>동적 기능과 인터랙션 구현</p><span class="skl__used"><a href="#pj-div" data-goto="pj-div">DIV</a><a href="#pj-islife" data-goto="pj-islife">Is Life</a><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a></span></li>
+            <li data-level="65"><span class="skl__no">04</span><b>React</b><p>컴포넌트 기반 UI 개발</p><span class="skl__used"><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a></span></li>
+            <li data-level="60"><span class="skl__no">05</span><b>Unity (C#)</b><p>게임 로직 및 인터랙션 구현</p><span class="skl__used"><a href="#pj-malmoi" data-goto="pj-malmoi">말모이</a></span></li>
           </ul>
         </div>
         <div class="skl__group reveal">
           <h3><b>DESIGN TOOLS</b><small>01 — 03</small></h3>
           <ul>
-            <li><span class="skl__no">01</span><b>Figma</b><p>UI 설계, 프로토타이핑, 컴포넌트 구성</p><span class="skl__used"><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a><a href="#pj-thailand" data-goto="pj-thailand">Thailand</a></span></li>
-            <li><span class="skl__no">02</span><b>Illustrator</b><p>그래픽 요소 제작</p><span class="skl__used"><a href="#pj-thailand" data-goto="pj-thailand">Thailand</a><a href="#pj-div" data-goto="pj-div">DIV</a><a href="#pj-islife" data-goto="pj-islife">Is Life</a><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a></span></li>
-            <li><span class="skl__no">03</span><b>Photoshop</b><p>이미지 보정·합성</p><span class="skl__used"><a href="#pj-thailand" data-goto="pj-thailand">Thailand</a><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a></span></li>
+            <li data-level="85"><span class="skl__no">01</span><b>Figma</b><p>UI 설계, 프로토타이핑, 컴포넌트 구성</p><span class="skl__used"><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a><a href="#pj-thailand" data-goto="pj-thailand">Thailand</a></span></li>
+            <li data-level="75"><span class="skl__no">02</span><b>Illustrator</b><p>그래픽 요소 제작</p><span class="skl__used"><a href="#pj-thailand" data-goto="pj-thailand">Thailand</a><a href="#pj-div" data-goto="pj-div">DIV</a><a href="#pj-islife" data-goto="pj-islife">Is Life</a><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a></span></li>
+            <li data-level="70"><span class="skl__no">03</span><b>Photoshop</b><p>이미지 보정·합성</p><span class="skl__used"><a href="#pj-thailand" data-goto="pj-thailand">Thailand</a><a href="#pj-dojagi" data-goto="pj-dojagi">도자기</a></span></li>
           </ul>
         </div>
       </div>
@@ -237,7 +213,7 @@
     </section>
   </div>
 
-  <script src="js/main.js"></script>
-  <script src="js/projects.js"></script>
+  <script src="js/main.js?v=20261112j"></script>
+  <script src="js/projects.js?v=20261111f"></script>
 </body>
 </html>
