@@ -20,8 +20,8 @@ const LAYERS = [
 ];
 
 function layersSVG(mode) {
-  /* 데스크톱은 화면 위까지 뻗고, 모바일은 꼭대기 돌 위에서 멈춤(위의 글자를 가리지 않도록) */
-  const pts = [...LAYERS.map(l => l.dot), [330, innerWidth <= 860 ? -40 : -1100]];
+  /* 세 층의 점끼리만 연결 (위에서 내려오는 선은 예전 메인의 흐름선이 담당) */
+  const pts = LAYERS.map(l => l.dot);
   const d = 'M' + pts.map(p => p.join(' ')).join(' L');
   const tags = LAYERS.map((l, i) => {
     const [x, y] = l.dot;
@@ -84,9 +84,10 @@ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 if (location.hash === '#projects') {
   /* 상세 페이지에서 프로젝트 목록으로 돌아올 때는 애니메이션 없이 바로 보여줌 */
   body.classList.add('is-done');
+  setTimeout(() => startLines(), 0);
   addEventListener('load', () => document.getElementById('projects').scrollIntoView({ behavior: 'instant' }));
 } else {
-  requestAnimationFrame(() => body.classList.add('is-done'));
+  requestAnimationFrame(() => { startLines(); body.classList.add('is-done'); });
 }
 
 
@@ -183,7 +184,114 @@ form.addEventListener('submit', e => {
   location.href = `mailto:youkh0503@gmail.com?subject=${subject}&body=${text}`;
 });
 
-/* 섹션을 관통하던 장식 흐름선(파랑·검정·노랑)은 제거 — 선은 돌탑의 의미를 설명할 때만 사용 */
+/* ===== 메인 선 모션 (예전 메인): 그려지듯 등장 → 살랑살랑 흔들림 + 스크롤 시 어긋남 ===== */
+const flowSvg = document.querySelector('.flow');
+const flowHero = document.getElementById('home');
+const fl = {
+  blue: document.getElementById('flowBlue'),
+  black: document.getElementById('flowBlack'),
+  yellow: document.getElementById('flowYellow')
+};
+/* 좌표 단위 = 돌탑 viewBox(614×911). 화면 크기가 달라도 돌탑과 선·교차점의 관계가 그대로 유지됨
+   두 점은 방향만 정하고, 실제 선은 양쪽으로 화면 밖까지 쭉 뻗음 */
+const FL = {
+  blue:   [[678, 37],   [553, 1089]],   /* 살짝 오른쪽으로 */
+  black:  [[-558, 731], [893, 1088]],   /* 살짝 아래로 */
+  yellow: [[-282, 1110], [893, 568]]    /* 같은 각도로 살짝 위로 */
+};
+const flowMain = document.querySelector('main');
+const flowTower = document.getElementById('heroTower');
+/* 선이 만나는 점 = 각 단계. 아래부터 파랑×검정 = PLAN / 노랑×검정 = DESIGN / 파랑×노랑 = BUILD (돌탑처럼 아래→위)
+   PLAN·DESIGN은 돌탑 그림자 아래 빈 곳에서 만남 */
+const FTAGS = [
+  { no: '01', en: 'PLAN',   a: 'blue',   b: 'black',  at: 2500 },
+  { no: '02', en: 'DESIGN', a: 'yellow', b: 'black',  at: 2750, flip: true },  /* 라벨을 왼쪽(돌탑 밖)으로 */
+  { no: '03', en: 'BUILD',  a: 'blue',   b: 'yellow', at: 3000 }
+];
+const ftagBox = document.getElementById('flowTags');
+ftagBox.innerHTML = FTAGS.map(f => `<span class="ftag${f.flip ? ' ftag--flip' : ''}"><i></i><em><small>${f.no}</small> ${f.en}</em></span>`).join('');
+const ftagEls = [...ftagBox.children];
+function crossPt(a, b, c, d) {
+  const r = [b[0] - a[0], b[1] - a[1]], s = [d[0] - c[0], d[1] - c[1]];
+  const u = ((c[0] - a[0]) * s[1] - (c[1] - a[1]) * s[0]) / (r[0] * s[1] - r[1] * s[0]);
+  return [a[0] + r[0] * u, a[1] + r[1] * u];
+}
+/* 돌탑 상자 위치·크기(main 기준)와, 파랑이 들어가 가려질 첫 프로젝트 이미지 높이 */
+let tb = { x: 0, y: 0, s: 1 }, blueStopY = 0, blueK = 0;
+const fmap = ([x, y]) => [tb.x + x * tb.s, tb.y + y * tb.s];
+function flowMeasure() {
+  const m = flowMain.getBoundingClientRect(), r = flowTower.getBoundingClientRect();
+  tb = { x: r.left - m.left, y: r.top - m.top, s: r.width / 614 };
+  /* 파랑 선이 실제로 지나가는 첫 프로젝트 이미지를 찾아, 그 이미지 가운데에서 선을 멈춤 */
+  const [a, b] = FL.blue.map(fmap), dxdy = (b[0] - a[0]) / (b[1] - a[1]);
+  blueStopY = flowHero.offsetHeight * 1.6;
+  /* 파랑은 아래로 갈수록 왼쪽으로 기울어서 카드 아래쪽이 가장 깊이 들어간 곳 → 거기서 멈춤
+     (카드 전체가 흰 바탕이라 이미지~글 영역 뒤로 계속 가려짐) */
+  blueK = dxdy;
+  for (const el of document.querySelectorAll('.pshow .pitem')) {
+    const f = el.getBoundingClientRect(), cy = f.bottom - m.top - 20, x = a[0] + (cy - a[1]) * dxdy;
+    /* 오른쪽 여유 14px = 선 굵기 절반(6) + 오른쪽 흔들림(3.5) + 여분 */
+    if (x > f.left - m.left + 30 && x < f.right - m.left - 14) { blueStopY = cy; break; }
+  }
+}
+flowMeasure();
+addEventListener('resize', flowMeasure);
+addEventListener('load', flowMeasure);
+if (document.fonts) document.fonts.ready.then(flowMeasure);
+/* 선을 양쪽으로 늘림. 파랑은 아래 끝이 첫 프로젝트 이미지 뒤에서 멈춤(이미지에 가려지며 끊김) */
+/* ty = 스크롤로 선 레이어가 내려간 만큼. 파랑 끝점은 이걸 빼서 이미지 안 같은 자리에 고정 (끝이 이미지 밖으로 안 나옴) */
+function stretch(name, a, b, ty = 0) {
+  const d = [b[0] - a[0], b[1] - a[1]], K = 4;
+  const p0 = [a[0] - d[0] * K, a[1] - d[1] * K];
+  const k1 = name === 'blue' ? (blueStopY - ty - a[1]) / d[1] : K + 1;
+  return [p0, [a[0] + d[0] * k1, a[1] + d[1] * k1]];
+}
+let linesStart = null;
+const fE = (t, d, s) => { const p = Math.min(Math.max((t - d) / s, 0), 1); return 1 - Math.pow(1 - p, 3); };
+
+function setLine(el, a, b, e) {
+  el.setAttribute('x1', a[0]); el.setAttribute('y1', a[1]);
+  el.setAttribute('x2', a[0] + (b[0] - a[0]) * e);
+  el.setAttribute('y2', a[1] + (b[1] - a[1]) * e);
+}
+
+function paintLines(now) {
+  const t = linesStart === null ? 0 : now - linesStart;
+  const sway = reduce ? 0 : Math.min(Math.max((t - 2400) / 1500, 0), 1);
+  const sy = Math.min(scrollY, innerHeight * 1.5);
+  const ty = reduce ? 0 : sy * .18;
+  /* 파랑(i 0·1)은 선 전체가 같이 평행이동 : 멀리 뻗은 끝이 출렁이지 않고, 오른쪽으로는 살짝씩만 */
+  const wob = (p, i) => {
+    const q = fmap(p), ph = now / 1700 + (i < 2 ? 0 : i * 1.7);
+    let dx = Math.sin(ph) * 14;
+    if (i < 2 && dx > 0) dx *= .25;
+    /* 스크롤로 선 레이어가 내려가도 프로젝트 쪽 파랑의 가로 위치가 그대로 있도록 보정 */
+    const fix = i < 2 ? blueK * ty : 0;
+    return [q[0] + sway * dx + fix, q[1] + sway * Math.cos(ph * .8) * 12];
+  };
+  /* 순서: 파랑 → 검정 → 노랑 */
+  const P = {
+    blue: [wob(FL.blue[0], 0), wob(FL.blue[1], 1)],
+    black: [wob(FL.black[0], 2), wob(FL.black[1], 3)],
+    yellow: [wob(FL.yellow[0], 4), wob(FL.yellow[1], 5)]
+  };
+  setLine(fl.blue, ...stretch('blue', ...P.blue, ty), fE(t, 0, 1100));
+  setLine(fl.black, ...stretch('black', ...P.black), fE(t, 700, 1300));
+  setLine(fl.yellow, ...stretch('yellow', ...P.yellow), fE(t, 1300, 1200));
+  /* 태그는 흔들리는 선의 교차점을 그대로 따라감 */
+  FTAGS.forEach((f, i) => {
+    const [x, y] = f.end ? P[f.end][1] : crossPt(...P[f.a], ...P[f.b]);
+    ftagEls[i].style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`;
+    ftagEls[i].classList.toggle('on', t >= f.at);
+  });
+  /* 돌탑과 같은 속도로 움직여서 스크롤해도 교차점과 돌탑의 관계가 유지됨 */
+  flowSvg.style.transform = ftagBox.style.transform = `translateY(${ty}px)`;
+  if (!reduce) requestAnimationFrame(paintLines);
+}
+function startLines() { linesStart = performance.now() + 250; }
+if (reduce) linesStart = -1e6;
+paintLines(performance.now());
+
 
 /* skills : 호버하면 설명 위에 숙련도 BAR(%)가 나타남. 수치는 각 li의 data-level */
 document.querySelectorAll('.skl__group li[data-level]').forEach(li => {

@@ -31,7 +31,19 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:54px;z-index:
 .reveal.in{opacity:1;transform:none}
 
 main{position:relative;overflow-x:clip}
-
+/* 예전 메인의 흐름선 (파랑·검정·노랑) */
+.flow{position:absolute;left:0;top:0;width:100%;height:100vh;z-index:1;overflow:visible;pointer-events:none;will-change:transform}
+.flow line{stroke-width:12;stroke-linecap:butt}
+/* 선의 교차점 태그 (돌탑보다 위) */
+.flowtags{position:absolute;left:0;top:0;width:100%;height:0;z-index:3;pointer-events:none;will-change:transform}
+.ftag{position:absolute;left:0;top:0;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.ftag>*{opacity:0;transform:translateY(8px);transition:opacity .5s ease,transform .5s ease}
+.ftag.on>*{opacity:1;transform:none}
+.ftag i{width:18px;height:18px;margin:-9px 0 0 -9px;position:absolute;left:0;top:0;border-radius:50%;background:var(--hl);border:3px solid var(--line)}
+.ftag em{position:absolute;left:18px;top:0;translate:0 -50%;padding:7px 14px;border-radius:99px;background:#fff;font:800 clamp(11px,.85vw,15px)/1 var(--en);font-style:normal;letter-spacing:.1em;color:var(--ink);box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.ftag--flip em{left:auto;right:18px}
+.ftag small{font-size:1em;color:var(--mute)}
+@media (prefers-reduced-motion:reduce){.ftag>*{transition:none}}
 /* 텍스트 블록: 아무 영향도 받지 않는 완전한 흰색 */
 .pitem__info,.abt__body,.skl__group,.cts__hero>div:first-child,.cts__links,.cts__form{background:#fff}
 /* 텍스트가 선에 뚫리지 않도록 About 정보는 흰 배경 */
@@ -251,7 +263,13 @@ body.modal-open{overflow:hidden}
 .cts .foot{max-width:1440px;margin:clamp(60px,9vw,130px) auto 0;width:calc(100% - 2*clamp(20px,6vw,115px))}
 
 /* ---------- HERO v2 · 왼쪽 타이틀 / 오른쪽 돌탑 ---------- */
-.hero2{position:relative;min-height:100vh;min-height:100svh;overflow:hidden;display:flex;align-items:center;padding:110px 0 90px}
+/* 메인 = 딱 한 화면. 돌탑은 위에 붙여서 아래쪽에 선이 만나는 점(태그)이 모두 보이게 */
+.hero2{position:relative;height:100vh;height:100svh;min-height:600px;overflow:hidden;display:flex;align-items:stretch;padding:60px 0 0}
+.hero2__tower{align-self:start}
+/* 선이 지나가도 글자가 뚫리지 않게 흰 바탕 */
+.hero2__big,.hero2__kr{width:fit-content;background:#fff}
+/* 프로젝트 이미지가 파랑 선을 덮음 */
+.pshow{z-index:2}
 .hero2__wrap{position:relative;z-index:2;width:100%;max-width:1760px;margin:0 auto;padding:0 clamp(20px,5vw,96px);display:grid;grid-template-columns:11fr 9fr;gap:clamp(16px,3vw,56px);align-items:center}
 .hero2__main{will-change:opacity,transform}
 .hero2__eyebrow{font:700 clamp(11px,.9vw,13px)/1 var(--en);letter-spacing:.14em;color:var(--mute);margin-bottom:clamp(14px,1.6vw,24px)}
@@ -262,12 +280,12 @@ body.modal-open{overflow:hidden}
 .hero2__big{margin-top:clamp(20px,2.6vw,40px);font:800 clamp(18px,2.2vw,36px)/1.15 var(--en);letter-spacing:-.03em}
 .hero2__kr{margin-top:clamp(8px,1vw,14px);font:400 clamp(14px,1.2vw,19px)/1.6 var(--kr);color:#444}
 .hero2__scroll{position:absolute;z-index:3;left:50%;bottom:26px;transform:translateX(-50%);font:700 clamp(16px,1.4vw,22px)/1 var(--en)}
-.hero2__tower{position:relative;justify-self:center;height:min(88vh,900px);aspect-ratio:614/911}
+.hero2__tower{position:relative;justify-self:center;height:min(calc(100svh - 205px),900px);aspect-ratio:614/911}
 /* 돌만 마우스·스크롤에 반응 (연결선 레이어 .tower__ov는 고정) */
 .hero2__tower>svg.tower:first-child{transform:translate3d(var(--mx,0px),calc(var(--py,0px) + var(--my,0px)),0) perspective(1000px) rotateY(var(--ry,0deg)) rotateX(var(--rx,0deg));transition:transform .45s cubic-bezier(.2,.7,.2,1)}
 .tower__ov{position:absolute;inset:0;pointer-events:none}
 @media (max-width:860px){
-  .hero2{align-items:flex-start;padding-top:96px}
+  .hero2{height:auto;min-height:100svh;align-items:flex-start;padding-top:96px}
   .hero2__wrap{grid-template-columns:1fr}
   .hero2__tower{height:min(40vh,340px);margin-top:8px}
 }
