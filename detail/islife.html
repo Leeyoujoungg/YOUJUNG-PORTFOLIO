@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Is Life — YOUJUNG PORTFOLIO</title>
+  <meta name="description" content="경제적 불안정 삶을 체험하는 시리어스 게임, Is Life">
+  <link rel="icon" href="../assets/favicon.svg?v=3" type="image/svg+xml">
+  <link rel="icon" href="../assets/favicon-64.png?v=3" type="image/png" sizes="64x64">
+  <link rel="shortcut icon" href="../assets/favicon.ico?v=3">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png?v=3">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="../css/dakku.css?v=14">
+  <link rel="stylesheet" href="../css/detail.css?v=20261125f">
+</head>
+<body class="scrolled detail">
+  <a class="skip" href="#main">본문 바로가기</a>
+
+  <header class="top top--detail">
+    <a class="top__home" href="../index.html" aria-label="YOJG, 메인으로 이동">YOJG</a>
+    <nav class="nav" aria-label="메인 메뉴">
+      <a href="../index.html#projects">← PROJECTS</a>
+    </nav>
+  </header>
+
+  <main class="dt" id="main" tabindex="-1">
+    <header class="dt__hero">
+      <p class="dt__meta">SERIOUS GAME · 1인 프로젝트 · 2026.05 ~ 2026.06</p>
+      <h1>Is Life</h1>
+      <p class="dt__lead">경제적 불안정 삶을 체험하는 시리어스 게임</p>
+    </header>
+
+    <figure class="dt__shot"><img src="../assets/p-islife.webp" alt="Is Life 게임 화면" width="1285" height="723"></figure>
+
+    <section class="dt__sec pc__step">
+      <div class="pc__head"><b>01</b></div>
+      <div class="pc__body">
+        <h2 class="pc__title">OVERVIEW</h2>
+        <p>출근 → 업무 → 퇴근 → 식사 → 수면을 2일간 반복하며 한 달을 압축해 보여주고, 마지막에 급여명세서로 지출이 월급과 같아지는 결말을 마주하게 됩니다.</p>
+        <a class="btn btn--fill dt__visit" href="https://leeyoujoungg.github.io/IsLife/" target="_blank" rel="noopener">게임 플레이하기 ↗</a>
+      </div>
+      <dl class="dt__info pc__span">
+        <div><dt>ROLE</dt><dd>기획 · 디자인 · 개발 (1인)</dd></div>
+        <div><dt>TEAM</dt><dd>1인 프로젝트</dd></div>
+        <div><dt>PERIOD</dt><dd>2026.05 ~ 2026.06</dd></div>
+        <div><dt>STACK</dt><dd>HTML · CSS · JavaScript · Illustrator</dd></div>
+      </dl>
+      <div class="kn pc__span">
+        <div class="kn__head"><h3>KNOWLEDGE</h3><p>이 프로젝트에 쓴 지식</p></div>
+        <ul class="kn__list">
+          <li><span class="kn__tag">DESIGN</span><h4>시리어스 게임 설계</h4><p>2일의 반복으로 한 달을 압축하고, 마지막 급여명세서로 메시지를 전달하도록 게임 구조와 결말을 설계</p></li>
+          <li><span class="kn__tag">BUILD</span><h4>게임 루프와 프레임 독립 이동</h4><p><code>requestAnimationFrame</code> 게임 루프에서 프레임 간 시간(<code>dt</code>)으로 이동량을 보정해, 어느 화면에서든 같은 속도로 이동</p></li>
+          <li><span class="kn__tag">CONNECT</span><h4>환경에 맞춘 경험 유지</h4><p>기준 해상도(1280×720) 비율로 화면 전체를 확대·축소하고, 브라우저 자동재생 정책에 맞춰 첫 입력 때 효과음을 켜 어느 환경에서도 같은 경험 제공</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="dt__sec">
+      <ol class="pc">
+        <li class="pc__step">
+          <div class="pc__head"><b>02</b></div>
+          <div class="pc__body">
+            <h3>FEATURES</h3>
+            <ol class="pc__refs">
+              <li><h4>2일 사이클 구조</h4><p>두 번의 하루 후 "한 달이 지났습니다"로 넘어가는 시간 압축 연출</p></li>
+              <li><h4>인터랙션</h4><p>스프라이트 애니메이션, 핫스팟 이동, 타이핑 미니게임(키보드 입력)</p></li>
+              <li><h4>시청각 연출</h4><p>페이드 전환, 암전 + 캡션, Web Audio API로 직접 합성한 효과음</p></li>
+              <li><h4>엔딩</h4><p>영수증 연출로 잔액 0원, "파산하였습니다" 표시</p></li>
+            </ol>
+          </div>
+        </li>
+
+        <li class="pc__step">
+          <div class="pc__head"><b>03</b></div>
+          <div class="pc__body">
+            <h3>DEV</h3>
+            <p>JavaScript만으로 경제적 불안정 속의 삶을 체험하는 횡스크롤 게임을 만들며, 웹 인터랙션부터 게임 로직까지 직접 구현했습니다.</p>
+          </div>
+        </li>
+
+        <li class="pc__step">
+          <div class="pc__head"><b>04</b></div>
+          <div class="pc__body">
+            <h3>TROUBLE SHOOTING</h3>
+
+            <h4 class="pc__issue">컴퓨터마다 캐릭터 속도가 달라지는 문제</h4>
+            <div class="pc__ba">
+              <div><em>문제</em><p>프레임이 다른 환경에서는 캐릭터의 이동 속도가 달라졌습니다.</p></div>
+              <div><em>해결</em><p>프레임 간 시간 차이(<code>dt</code>)로 이동량을 보정하고, 한 번에 튀는 값에는 상한(최대 3배)을 두었습니다.</p></div>
+            </div>
+            <figure class="pc__code">
+              <figcaption>KEY CODE <span>game.js · 프레임 시간 보정</span></figcaption>
+<pre tabindex="0"><code>function gameLoop(now) {
+    if (lastTime === null) lastTime = now;
+    const <span class="k">dt</span> = Math.min((now - lastTime) / (1000 / 60), 3); <span class="c">// 60fps 기준 배수, 너무 튀면 3배로 제한</span>
+    lastTime = now;
+
+    if (state.scene !== 'title') update(<span class="k">dt</span>);
+    state.animFrame = requestAnimationFrame(gameLoop);
+}
+
+function update(<span class="k">dt</span>) {
+    <span class="c">// ...</span>
+    const speed = PLAYER_SPEED * <span class="k">dt</span>;      <span class="c">// 이동량 = 기준 속도 × 흐른 시간</span>
+}</code></pre>
+            </figure>
+            <ul class="pc__code-note">
+              <li><code>dt</code>는 지난 프레임부터 흐른 시간을 60fps 한 프레임과 비교한 값입니다. 144Hz 화면에서는 작아지고, 30fps에서는 커져서 어느 환경이든 1초에 움직이는 거리가 같아집니다.</li>
+              <li>다른 탭에 있다가 돌아오면 시간이 크게 벌어지므로, 최대 3배로 막아 캐릭터가 순간이동하지 않게 했습니다.</li>
+            </ul>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <footer class="dt__foot">
+      <a class="btn btn--fill" href="../index.html#projects">← 프로젝트 목록으로</a>
+      <a class="dt__next" href="dojagi.html"><span>NEXT PROJECT →</span><b>도자기</b></a>
+    </footer>
+  </main>
+</body>
+</html>

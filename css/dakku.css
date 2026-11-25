@@ -1,0 +1,408 @@
+/* ================= 경험을 모아 붙인 다꾸 도화지 ================= */
+:root{
+  --paper:#F7F4EC; --ink:#0A0A0A; --soft:#57524a; /* 도화지 위 명도 대비 7:1 이상 */
+  --red:#B5473A; --mustard:#B88A14; --sheet:#FFFDF8;
+  --en:'Montserrat','Pretendard Variable',Pretendard,sans-serif;
+  --kr:'Pretendard Variable',Pretendard,'Montserrat',sans-serif;
+  --hand:'Nanum Pen Script',cursive;
+  --pad:clamp(20px,5vw,96px);
+  --ease:cubic-bezier(.2,.7,.2,1);
+  --lift:drop-shadow(0 1px 1px rgba(70,50,20,.16)) drop-shadow(0 6px 10px rgba(70,50,20,.08));
+  --lift-up:drop-shadow(0 4px 4px rgba(70,50,20,.12)) drop-shadow(0 22px 26px rgba(70,50,20,.16));
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+/* 하나의 긴 도화지 : 따뜻한 흰색 + 도화지 질감 이미지 */
+body{color:var(--ink);font-family:var(--en);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  background:linear-gradient(rgba(247,244,236,.4),rgba(247,244,236,.4)),url(../assets/dakku/paper.jpg) center top / 1125px auto repeat,var(--paper);
+  background-blend-mode:normal,multiply}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+button,input,textarea{font:inherit;color:inherit}
+ul,ol{list-style:none}
+[hidden]{display:none!important}
+main{position:relative;overflow-x:clip}
+main:focus{outline:none}
+.wrap{max-width:1360px;margin:0 auto;padding:0 var(--pad)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+
+/* 본문 바로가기 (KWCAG 2.4.1) */
+.skip{position:fixed;left:16px;top:-80px;z-index:100;padding:12px 20px;border-radius:99px;background:var(--ink);color:#fff;font:700 15px var(--kr);transition:top .2s}
+.skip:focus{top:16px}
+
+/* ---------- 상단 ---------- */
+.top{position:fixed;inset:0 0 auto;z-index:50;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad);transition:background .3s,box-shadow .3s}
+.scrolled .top{background:rgba(247,244,236,.88);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 1px 0 rgba(10,10,10,.08)}
+.top__home{font:800 15px/1 var(--en);letter-spacing:.12em;opacity:0;transform:translateY(-6px);transition:.35s;pointer-events:none}
+.scrolled .top__home{opacity:1;transform:none;pointer-events:auto}
+.nav{display:flex;gap:clamp(14px,2vw,32px)}
+.nav a{position:relative;padding:6px 0;font:700 13px/1 var(--en);letter-spacing:.14em}
+.nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
+.nav a:hover::after,.nav a.on::after{transform:none}
+.nav-toggle{display:none}
+
+/* ---------- 우표 틀 (첨부 이미지 그대로, 투명 여백만 상자 밖으로) ---------- */
+.frame{position:relative;aspect-ratio:342/535}
+.frame::before{content:"";position:absolute;inset:0;background:url(../assets/dakku/stamp-frame.png) 45.45% 48.1% / 109.65% 124.49% no-repeat}
+.frame__pic{position:absolute;top:4.2%;left:6.5%;width:87%;height:91.6%;object-fit:cover;object-position:center top}
+/* 가로 우표 : 같은 틀을 90° 돌려서 사용 */
+.frame--wide{aspect-ratio:535/342}
+.frame--wide::before{inset:auto;left:50%;top:50%;width:63.93%;height:156.43%;translate:-50% -50%;rotate:90deg}
+.frame--wide .frame__pic{top:6.5%;left:4.2%;width:91.6%;height:87%;object-position:center}
+/* 정사각에 가까운 우표 : 틀의 위쪽과 아래쪽만 이어 붙임 (가운데 톱니 6칸 = 191px을 빼서 늘이거나 찌그러뜨리지 않음) */
+.frame--sq{aspect-ratio:342/343}
+.frame--sq::before,.frame--sq::after{content:"";position:absolute;left:0;right:0;background:url(../assets/dakku/stamp-frame.png) no-repeat;background-size:109.65% auto}
+.frame--sq::before{inset:0 0 auto;height:69.1%;background-position:45.45% 14.685%}
+.frame--sq::after{inset:auto 0 0;height:30.9%;background-position:45.45% 87.68%}
+.frame--sq .frame__pic{z-index:1;top:6.4%;left:6.5%;width:87%;height:87.2%;object-position:center}
+
+/* 마스킹 테이프 */
+.tape{position:absolute;z-index:2;top:-14px;width:84px;height:24px;background:rgba(184,138,20,.42);
+  clip-path:polygon(3% 0,97% 4%,100% 30%,96% 52%,100% 78%,97% 100%,2% 96%,0 70%,4% 46%,0 22%)}
+.tape--l{left:18%;transform:rotate(-6deg)}
+.tape--r{right:14%;transform:rotate(7deg)}
+.tape--red{background:rgba(181,71,58,.36)}
+/* 우편 소인 : 시작 연·월 */
+.postmark{position:absolute;z-index:2;right:-16px;top:-18px;width:76px;height:76px;border-radius:50%;border:1.5px solid var(--red);color:var(--red);
+  display:grid;place-content:center;text-align:center;transform:rotate(-14deg);mix-blend-mode:multiply;opacity:.88}
+.postmark::before{content:"";position:absolute;inset:5px;border-radius:50%;border:1px dashed currentColor}
+.postmark b{font:800 15px/1 var(--en);letter-spacing:.04em}
+.postmark i{font:600 10px/1.4 var(--en);font-style:normal;letter-spacing:.2em}
+.postmark--mustard{color:var(--mustard);border-color:var(--mustard)}
+/* 스탬프 투어 : 본 프로젝트 우표에 찍히는 소인 (원 + 물결선) */
+.seen{position:absolute;z-index:2;left:-6%;bottom:3%;width:62%;height:auto;rotate:-9deg;color:var(--red);fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;
+  mix-blend-mode:multiply;opacity:.86;pointer-events:none}
+.seen text{fill:currentColor;stroke:none;font:800 19px var(--en);letter-spacing:.08em;text-anchor:middle}
+.seen .seen__d{font:600 12px var(--en);letter-spacing:.14em}
+.seen.is-wait{opacity:0}
+.seen.is-hit{animation:sealHit .36s cubic-bezier(.55,0,.75,.4) backwards}
+.pcard.is-stamped .frame{animation:shake .26s linear .3s}
+.memo.is-done{color:var(--red)}
+
+/* ================= HOME ================= */
+.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;justify-content:center;padding:72px var(--pad) 40px}
+.hero__stage{display:flex;flex-direction:column;align-items:center;text-align:center;width:100%}
+/* PORTFOLIO 이미지는 그대로. 위아래 투명 여백만 상자 밖으로 */
+/* 화면 양옆을 살짝 넘길 만큼 크게, 비스듬히 찍힌 느낌으로 (글자 모양·색은 그대로, 크기·각도만) */
+.hero__title{flex:none;width:106vw;aspect-ratio:2172/300;overflow:hidden;rotate:-5deg;margin:clamp(12px,2vw,36px) 0 0}
+.hero__title img{width:100%;height:auto;margin-top:-9.4%}
+
+.hero__center{--w:clamp(170px,min(19vw,29svh),320px);position:relative;width:var(--w);margin:clamp(40px,5.4svh,88px) 0 calc(var(--w) * .5)}
+.pstamp{transform:rotate(-3deg);filter:var(--lift)}
+.pstamp .frame__pic{object-position:center}
+/* 도장 두 개 = 같은 이미지(왼쪽 팔각 · 오른쪽 원형) 두 장을 각각 한쪽만 보이게 하고 따로 놓음. 이미지는 그대로
+   팔각 도장이 사진 오른쪽 아래를 덮고, 원형 도장은 그 바깥 오른쪽 아래에 */
+.seals{position:absolute;width:calc(var(--w) * 1.45);left:55.7%;top:51.5%;aspect-ratio:2/1;pointer-events:none}
+.seal{position:absolute;inset:0;mix-blend-mode:multiply}
+.seal img{width:100%;height:auto}
+.seal--oct{clip-path:inset(0 46% 0 0);transform-origin:27% 50%}
+.seal--round{clip-path:inset(0 0 0 54%);transform-origin:77% 53%;translate:-17.4% 41%}
+
+.hero__copy{position:relative;z-index:2}
+.hero__slogan{font:300 clamp(22px,2.5vw,36px)/1.35 var(--kr);letter-spacing:-.03em;word-break:keep-all}
+.hero__slogan strong{font-weight:700}
+.hero__sub{margin-top:10px;font:400 clamp(14px,1.15vw,17px)/1.7 var(--kr);color:var(--soft);word-break:keep-all}
+.hero__hint{display:inline-flex;align-items:center;gap:8px;margin-top:clamp(18px,3.2svh,40px);font:600 11px/1 var(--en);letter-spacing:.24em;text-transform:uppercase;color:var(--red)}
+.hero__hint i{font:500 14px/1 var(--en);font-style:normal;animation:bob 1.8s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:none}50%{transform:translateY(4px)}}
+
+/* ---------- 첫 화면 등장 (약 3초) ---------- */
+.js .hero__title,.js .pstamp,.js .hero .seal,.js .hero__copy,.js .hero__hint{opacity:0}
+.is-play .hero__title{animation:titleIn .8s var(--ease) .15s both}
+.is-play .pstamp{animation:stampDrop .75s cubic-bezier(.3,.7,.3,1) .6s both}
+.is-play .hero .seal--oct{animation:sealHit .34s cubic-bezier(.55,0,.75,.4) 1.4s both}
+.is-play .hero .seal--round{animation:sealHit .34s cubic-bezier(.55,0,.75,.4) 1.95s both}
+.is-play .hero__stage{animation:shake .26s linear 1.72s,shake2 .26s linear 2.27s}
+.is-play .hero__copy{animation:rise .7s var(--ease) 2.45s both}
+.is-play .hero__hint{animation:fade .6s ease 2.85s both}
+.is-static .hero__title,.is-static .pstamp,.is-static .hero .seal,.is-static .hero__copy,.is-static .hero__hint{opacity:1;animation:none}
+
+@keyframes titleIn{from{opacity:0;transform:translateY(-10px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+/* 위에서 내려와 → 살짝 눌리며 붙음 */
+@keyframes stampDrop{
+  0%{opacity:0;transform:translateY(-62vh) rotate(-11deg)}
+  10%{opacity:1}
+  72%{transform:translateY(0) rotate(-2.5deg) scale(1)}
+  84%{transform:translateY(2px) rotate(-3deg) scale(.965)}
+  100%{opacity:1;transform:rotate(-3deg) scale(1)}
+}
+/* 크게 떠 있던 도장이 빠르게 내려와 종이에 닿음 → 잉크만 남음 */
+@keyframes sealHit{
+  0%{opacity:0;transform:scale(2.3) rotate(-6deg);filter:blur(3px)}
+  30%{opacity:.55}
+  82%{opacity:1;transform:scale(.97);filter:none}
+  100%{opacity:1;transform:none;filter:none}
+}
+@keyframes shake{0%,100%{transform:none}20%{transform:translate(-2px,1px)}40%{transform:translate(2px,-1px)}60%{transform:translate(-1px,1px)}80%{transform:translate(1px,0)}}
+@keyframes shake2{0%,100%{transform:none}20%{transform:translate(2px,1px)}40%{transform:translate(-2px,-1px)}60%{transform:translate(1px,1px)}80%{transform:translate(-1px,0)}}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+
+/* ================= 공통 : 섹션 머리 · 등장 ================= */
+section[id]{scroll-margin-top:40px}
+.sec-head{display:flex;align-items:flex-end;gap:clamp(10px,1.4vw,20px);margin-bottom:clamp(48px,6vw,96px)}
+.sec-head__no{font:600 13px/1 var(--en);letter-spacing:.14em;color:var(--red);padding-bottom:.7em}
+.sec-head__title{font:800 clamp(40px,6.4vw,104px)/.95 var(--en);letter-spacing:-.04em}
+/* 고무도장처럼 찍힌 짧은 라벨 (두 줄 테두리) */
+.memo,.notes__title{display:inline-block;padding:8px 13px 7px;border:1.5px solid currentColor;border-radius:3px;outline:1px solid currentColor;outline-offset:-5px;
+  font:700 11px/1 var(--en);letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;mix-blend-mode:multiply}
+.memo{margin:0 0 .8em auto;color:var(--mustard);transform:rotate(-4deg)}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .9s ease,transform .9s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+/* ================= PROJECTS : 우표 카드 ================= */
+.pj{padding:clamp(100px,12vw,200px) 0 clamp(80px,10vw,160px)}
+/* 우표 보드는 다른 섹션보다 넓게 써서 카드를 크게 */
+.pj .wrap{max-width:1640px;padding:0 clamp(20px,3vw,56px)}
+.pj__board{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(64px,7vw,110px) clamp(22px,2.2vw,40px)}
+.pcard{grid-column:span 2;position:relative}
+.pcard:nth-child(2){margin-top:clamp(30px,4vw,64px)}
+.pcard:nth-child(4){grid-column:2 / span 2}
+.pcard:nth-child(5){margin-top:clamp(30px,4vw,64px)}
+.pcard__stamp{position:relative;transform:rotate(var(--r));filter:var(--lift);transition:transform .5s var(--ease),filter .5s var(--ease)}
+.stamp__val{position:absolute;z-index:1;right:7%;bottom:11%;padding:2px 7px;background:var(--sheet);font:700 12px/1.3 var(--en);letter-spacing:.06em}
+
+.pcard__info{margin-top:clamp(16px,1.6vw,24px);padding:0 4px}
+.pcard__meta{display:flex;align-items:center;gap:10px;margin-bottom:8px;font:600 11px/1 var(--en);letter-spacing:.14em;color:var(--soft)}
+.pcard__meta span{color:var(--red);font-weight:700}
+.pcard__meta i{margin-left:auto;font:400 20px/1 var(--en);font-style:normal;color:var(--ink);transition:transform .4s var(--ease)}
+.pcard:hover .pcard__meta i{transform:translate(4px,-4px)}
+.pcard h3{font:700 clamp(21px,1.8vw,28px)/1.3 var(--en)}
+.pcard h3 em{margin-left:.45em;font:500 14px var(--kr);font-style:normal;color:var(--soft)}
+.pcard__info>p:not(.pcard__meta){margin-top:4px;font:400 16px/1.6 var(--kr);color:#2b2822;word-break:keep-all}
+.pcard small{display:block;margin-top:2px;font:400 14px/1.6 var(--kr);color:var(--soft)}
+/* 카드 전체 = 링크 하나 (제목 링크의 영역을 카드 전체로) */
+.pcard__link::after{content:"";position:absolute;inset:-12px;z-index:3}
+.pcard__link:focus-visible{outline:none}
+.pcard:has(.pcard__link:focus-visible){outline:2px solid var(--red);outline-offset:12px}
+/* SKILLS에서 넘어오면 잠깐 표시 */
+.pcard.is-ping .pcard__link{background:linear-gradient(transparent 55%,rgba(184,138,20,.4) 55%)}
+.pcard.is-ping .pcard__stamp{filter:var(--lift-up)}
+
+/* 화면에 들어오면 한 장씩 붙고, 마우스를 올리면 살짝 들림 */
+.pcard.reveal{opacity:1;transform:none;transition:none}
+.pcard.reveal .pcard__stamp{opacity:0;transform:translateY(-36px) rotate(calc(var(--r) - 7deg)) scale(1.06)}
+.pcard.reveal .pcard__info{opacity:0;transform:translateY(14px)}
+.pcard.reveal.in .pcard__stamp{opacity:1;transform:rotate(var(--r));
+  transition:opacity .35s ease var(--d,0s),transform .7s cubic-bezier(.3,1.35,.5,1) var(--d,0s),filter .5s var(--ease)}
+.pcard.reveal.in .pcard__info{opacity:1;transform:none;transition:opacity .7s ease calc(var(--d,0s) + .3s),transform .7s var(--ease) calc(var(--d,0s) + .3s)}
+.pcard.reveal.in:hover .pcard__stamp{transform:translateY(-10px) rotate(calc(var(--r) * .35));filter:var(--lift-up);transition-delay:0s}
+
+/* ================= ABOUT : 다이어리 ================= */
+.abt{padding:clamp(60px,8vw,140px) 0}
+.diary{position:relative;display:grid;grid-template-columns:1fr 1fr;
+  background:#fff; /* 공책은 질감 없는 맨 종이 */
+  box-shadow:0 1px 2px rgba(70,50,20,.12),0 24px 48px -12px rgba(70,50,20,.18)}
+/* 가운데 접힌 자리 */
+.diary::after{content:"";position:absolute;top:0;bottom:0;left:calc(50% - 28px);width:56px;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(70,50,20,.07) 45%,rgba(70,50,20,.12) 50%,rgba(70,50,20,.07) 55%,transparent)}
+.diary__page{position:relative;padding:clamp(28px,4.2vw,72px)}
+/* 왼쪽 장 : 빈 종이 / 오른쪽 장 : 줄 */
+.diary__page--r{background-image:repeating-linear-gradient(transparent 0 33px,rgba(181,71,58,.13) 33px 34px)}
+
+.diary__photo{position:relative;width:min(62%,300px);margin:0 auto clamp(32px,4vw,56px);padding:10px 10px 36px;background:#fff;transform:rotate(-3deg);filter:var(--lift)}
+.diary__photo img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover}
+.tape--photo{left:50%;top:-12px;margin-left:-42px;transform:rotate(-4deg)}
+.diary__info>div{display:grid;grid-template-columns:92px 1fr;gap:10px;padding:10px 0;border-bottom:1px dashed rgba(10,10,10,.22);font:400 clamp(13px,1vw,15px)/1.7 var(--kr)}
+.diary__info dt{font:700 11px/2.1 var(--en);letter-spacing:.12em;color:var(--red)}
+.diary__info small{margin-left:4px;font-size:.88em;color:var(--soft)}
+.diary__info a{border-bottom:1px solid transparent;transition:border-color .2s}
+.diary__info a:hover{border-color:var(--ink)}
+
+.diary__eyebrow{font:700 11px/1 var(--en);letter-spacing:.16em;color:var(--soft)}
+.diary__name{margin:14px 0 18px;font:800 clamp(44px,5.4vw,88px)/1 var(--kr);letter-spacing:-.04em}
+.diary__slogan{font:300 clamp(20px,2vw,30px)/1.5 var(--kr);letter-spacing:-.02em;word-break:keep-all}
+.diary__slogan strong{font-weight:700}
+.diary__lead{margin-top:14px;font:400 clamp(14px,1.1vw,17px)/1.75 var(--kr);color:#2b2822;word-break:keep-all}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin:clamp(20px,2.2vw,30px) 0 clamp(36px,4vw,56px)}
+.pill{display:inline-block;border:1.5px solid var(--ink);border-radius:99px;padding:5px 16px;font:700 14px/1.5 var(--kr);background:var(--sheet);transition:background .2s,color .2s}
+.pill:hover{background:var(--ink);color:#fff}
+
+/* WHAT I DO : 포스트잇 메모 세 장 */
+.notes__title{color:var(--red);margin-bottom:18px;transform:rotate(-2deg)}
+.notes ol{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.4vw,20px)}
+.note{padding:16px 14px 18px;background:#fff;transform:rotate(var(--r));box-shadow:0 1px 2px rgba(70,50,20,.14),0 8px 14px -6px rgba(70,50,20,.2);transition:transform .4s var(--ease)}
+.note--y{background:#FBF0CF}
+.note:hover{transform:translateY(-4px) rotate(0)}
+.note span{display:block;font:700 11px/1 var(--en);color:var(--red);letter-spacing:.1em}
+.note b{display:block;margin-top:8px;font:800 clamp(16px,1.4vw,21px)/1.1 var(--en);letter-spacing:-.02em}
+.note p{margin-top:8px;font:400 13px/1.55 var(--kr);color:#2b2822;word-break:keep-all}
+
+/* 등장 : 다이어리가 펼쳐진 뒤 사진이 붙고 메모가 차례로 */
+.diary.reveal .diary__photo{opacity:0;transform:translateY(-24px) rotate(-9deg) scale(1.05)}
+.diary.reveal.in .diary__photo{opacity:1;transform:rotate(-3deg);transition:opacity .35s ease .35s,transform .7s cubic-bezier(.3,1.35,.5,1) .35s}
+.diary.reveal .note{opacity:0;translate:0 -14px}
+.diary.reveal.in .note{opacity:1;translate:0 0;transition:opacity .4s ease calc(.6s + var(--i,0) * .12s),translate .6s cubic-bezier(.3,1.35,.5,1) calc(.6s + var(--i,0) * .12s),transform .4s var(--ease)}
+
+/* ================= SKILLS : 스티커와 도장 모음 ================= */
+.skl{padding:clamp(80px,10vw,160px) 0}
+.skl__group+.skl__group{margin-top:clamp(56px,6vw,96px)}
+.skl__group h3{display:flex;align-items:baseline;gap:14px;margin-bottom:clamp(20px,2.4vw,32px)}
+.skl__group h3 b{font:800 13px/1 var(--en);letter-spacing:.16em}
+.skl__group h3 small{font:600 12px/1 var(--en);letter-spacing:.14em;color:var(--soft)}
+.skl__group ul{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:clamp(20px,2.2vw,32px)}
+.sticker{position:relative;display:flex;flex-direction:column;padding:20px 20px 18px;border-radius:18px;background:var(--sheet);
+  box-shadow:0 0 0 4px #fff,0 0 0 5px rgba(10,10,10,.06),0 2px 3px 4px rgba(70,50,20,.10),0 12px 22px rgba(70,50,20,.10);
+  transform:rotate(var(--r));transition:transform .45s var(--ease),box-shadow .45s var(--ease)}
+.sticker:hover{transform:translateY(-6px) rotate(0);box-shadow:0 0 0 4px #fff,0 0 0 5px rgba(10,10,10,.06),0 6px 8px 4px rgba(70,50,20,.10),0 22px 32px rgba(70,50,20,.16)}
+.skl__no{font:700 11px/1 var(--en);letter-spacing:.1em;color:var(--red)}
+.sticker b{margin-top:10px;font:800 clamp(22px,2vw,30px)/1.1 var(--en);letter-spacing:-.03em}
+/* 호버 : 설명 위에 숙련도 BAR(%)가 나타남 (기존과 같은 동작) */
+.skl__desc{position:relative;margin-top:26px}
+.sticker p{font:400 14px/1.55 var(--kr);color:#2b2822;transform-origin:left center;transition:transform .35s var(--ease),opacity .35s;word-break:keep-all}
+.skl__bar{position:absolute;left:0;right:0;bottom:calc(100% + 4px);display:flex;align-items:center;gap:10px;opacity:0;transform:translateY(6px);transition:opacity .3s,transform .35s var(--ease);pointer-events:none}
+.skl__bar i{position:relative;flex:1;height:5px;border-radius:9px;background:rgba(10,10,10,.08);overflow:hidden}
+.skl__bar i::after{content:"";position:absolute;inset:0;width:calc(var(--v) * 1%);background:var(--mustard);border-radius:9px;transform:scaleX(0);transform-origin:left;transition:transform .7s var(--ease) .05s}
+.skl__bar em{font:800 14px/1 var(--en);font-style:normal;min-width:2.8em;text-align:right}
+.sticker:hover .skl__bar,.sticker:focus-within .skl__bar{opacity:1;transform:none}
+.sticker:hover .skl__bar i::after,.sticker:focus-within .skl__bar i::after{transform:scaleX(1)}
+.sticker:hover p,.sticker:focus-within p{transform:translateY(8px) scale(.9);opacity:.6}
+/* 사용한 프로젝트 : 작은 도장 칩 (누르면 해당 우표로 이동) */
+.skl__used{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:16px}
+.skl__used a{padding:2px 11px;border:1.5px dashed var(--red);border-radius:99px;font:600 12px/1.6 var(--kr);color:var(--red);transition:background .2s,color .2s}
+.skl__used a:hover,.skl__used a:focus-visible{background:var(--red);color:#fff;border-style:solid}
+/* 등장 : 스티커가 한 장씩 붙음 */
+.skl__group .sticker{opacity:0;translate:0 -16px;scale:1.05}
+.skl__group.in .sticker{opacity:1;translate:0 0;scale:1;transition:opacity .4s ease var(--d,0s),translate .6s cubic-bezier(.3,1.35,.5,1) var(--d,0s),scale .6s cubic-bezier(.3,1.35,.5,1) var(--d,0s),transform .45s var(--ease),box-shadow .45s var(--ease)}
+
+/* ================= CONTACT : 엽서 ================= */
+.cts{padding:clamp(80px,10vw,160px) 0 28px}
+.postcard{position:relative;display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(28px,4vw,72px);padding:clamp(40px,4.6vw,76px) clamp(24px,4.4vw,72px) clamp(32px,4vw,64px);
+  background:#fff; /* 엽서도 질감 없는 맨 종이 */
+  box-shadow:0 1px 2px rgba(70,50,20,.12),0 24px 48px -12px rgba(70,50,20,.18);transform:rotate(-.5deg)}
+.postcard.reveal{transform:translateY(30px) rotate(-2deg)}
+.postcard.reveal.in{transform:rotate(-.5deg)}
+.postcard__label{position:absolute;left:50%;top:clamp(14px,1.6vw,24px);translate:-50% 0;font:600 11px/1 var(--en);letter-spacing:.6em;color:var(--soft);white-space:nowrap}
+.cts__big{font:800 clamp(34px,4.8vw,76px)/.98 var(--en);letter-spacing:-.045em}
+.cts__lead{margin-top:clamp(14px,1.4vw,22px);font:400 clamp(14px,1.1vw,17px)/1.7 var(--kr);color:#2b2822;word-break:keep-all}
+.form{display:grid;gap:14px;margin-top:clamp(24px,2.6vw,40px)}
+.form label{display:grid;gap:4px;font:600 13px var(--kr);color:var(--soft)}
+.form input,.form textarea{border:0;border-bottom:1.5px solid rgba(10,10,10,.5);padding:6px 0;background:transparent;font:400 18px var(--kr);color:var(--ink);outline:0;border-radius:0;resize:vertical}
+.form textarea{background:repeating-linear-gradient(transparent 0 33px,rgba(10,10,10,.18) 33px 34px);line-height:34px;padding:0}
+.form input:focus,.form textarea:focus{border-color:var(--red)}
+.btn{display:inline-block;justify-self:start;margin-top:8px;border:1.5px solid var(--ink);border-radius:99px;padding:13px 28px;font:700 16px var(--kr);background:var(--ink);color:#fff;cursor:pointer;transition:background .2s,color .2s}
+.btn:hover{background:transparent;color:var(--ink)}
+.form__note{font:500 14px var(--kr);color:var(--red);min-height:1em}
+
+.postcard__addr{display:flex;flex-direction:column;border-left:1.5px solid rgba(10,10,10,.18);padding-left:clamp(24px,3.6vw,64px)}
+/* 우표 붙이는 자리 : 빈 우표 틀 + 원형 소인 */
+.postcard__stampbox{position:relative;height:clamp(170px,14vw,200px);margin-bottom:clamp(16px,2vw,28px)}
+.frame--empty{position:absolute;right:0;top:0;width:clamp(86px,7.4vw,108px);transform:rotate(3deg);filter:drop-shadow(0 1px 2px rgba(70,50,20,.3)) drop-shadow(0 6px 10px rgba(70,50,20,.14))}
+/* 다섯 장을 다 모으면 빈 틀에 우표가 붙음 */
+.frame--empty.is-wait{opacity:0}
+.frame--empty.is-stick{animation:stickOn .7s cubic-bezier(.3,.7,.3,1) both}
+@keyframes stickOn{
+  0%{opacity:0;transform:translateY(-48px) rotate(-9deg) scale(1.12)}
+  15%{opacity:1}
+  75%{transform:translateY(0) rotate(3.5deg) scale(1)}
+  88%{transform:translateY(1px) rotate(3deg) scale(.96)}
+  100%{opacity:1;transform:rotate(3deg)}
+}
+.seal--post{inset:auto;right:clamp(34px,3vw,46px);top:clamp(70px,6vw,88px);width:clamp(200px,17vw,250px);aspect-ratio:2/1;translate:none;transform:rotate(8deg);opacity:.92}
+.postcard__to{font:400 34px/1 var(--hand);color:var(--red)}
+.cts__links{margin-top:10px}
+.cts__links a{display:grid;grid-template-columns:64px 1fr auto;align-items:center;gap:10px;min-height:64px;padding:0 8px;border-bottom:1.5px dashed rgba(10,10,10,.3);transition:background .25s,color .25s}
+.cts__links a:hover,.cts__links a:focus-visible{background:var(--ink);color:#fff}
+.cts__links span{font:700 11px/1 var(--en);letter-spacing:.14em;color:var(--red)}
+.cts__links a:hover span,.cts__links a:focus-visible span{color:#f1c6bf}
+/* 주소는 항상 한 줄 : 화면 폭에 맞춰 글자 크기를 줄임 (가장 긴 github 주소 기준, 엽서가 두 칸일 때) */
+.cts__links b{min-width:0;font:700 clamp(12px,calc(1.95vw - 7.6px),17px)/1.3 var(--en);white-space:nowrap}
+.cts__links i{font:400 22px/1 var(--en);font-style:normal;transition:transform .35s var(--ease)}
+.cts__links a:hover i{transform:translate(4px,-4px)}
+
+/* ---------- 푸터 · W3C 배지 ---------- */
+.foot{margin-top:clamp(60px,8vw,120px);padding-top:16px;border-top:1.5px solid var(--ink);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;font:600 14px var(--en)}
+.foot a{border-bottom:1px solid transparent}
+.foot a:hover{border-color:var(--ink)}
+.foot__badge{display:inline-flex;align-items:center;gap:8px;padding:5px 14px 5px 6px;border:1.5px solid var(--ink);border-radius:99px;background:transparent;font:700 13px var(--kr);cursor:pointer;transition:background .2s,color .2s}
+.foot__badge i{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--mustard);color:#fff;font:800 12px/1 var(--en);font-style:normal}
+.foot__badge:hover,.foot__badge:focus-visible{background:var(--ink);color:#fff}
+
+/* W3C 결과 팝업 */
+.w3c{width:min(720px,calc(100% - 32px));max-height:calc(100% - 48px);margin:auto;padding:clamp(24px,4vw,44px);border:0;background:var(--sheet);color:var(--ink);box-shadow:0 30px 60px rgba(0,0,0,.25);overscroll-behavior:contain}
+.w3c::backdrop{background:rgba(10,10,10,.5)}
+.w3c[open]{animation:w3cIn .3s var(--ease)}
+@keyframes w3cIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.w3c__close{position:absolute;right:14px;top:14px;width:40px;height:40px;border:1.5px solid var(--ink);border-radius:50%;background:transparent;font:600 16px var(--en);cursor:pointer;transition:.2s}
+.w3c__close:hover,.w3c__close:focus-visible{background:var(--ink);color:#fff}
+.w3c__eyebrow{font:700 12px var(--en);letter-spacing:.12em;color:var(--red)}
+.w3c__title{margin-top:6px;padding-right:44px;font:800 clamp(24px,3.4vw,34px)/1.2 var(--kr);letter-spacing:-.03em}
+.w3c__meta{margin-top:8px;font:500 13px/1.6 var(--kr);color:var(--soft);word-break:keep-all}
+.w3c__sum{margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.w3c__sum li{display:flex;align-items:center;gap:14px;padding:14px 18px;border:1.5px solid var(--ink)}
+.w3c__sum b{font:800 44px/1 var(--en);letter-spacing:-.04em}
+.w3c__sum span{font:700 15px/1.4 var(--kr)}
+.w3c__sum small{display:block;font:500 12px var(--kr);color:var(--soft)}
+.w3c__table{margin-top:22px;width:100%;border-collapse:collapse;border-top:2px solid var(--ink);font:400 14px/1.6 var(--kr)}
+.w3c__table caption{caption-side:top;text-align:left;padding-bottom:8px;font:700 15px var(--kr)}
+.w3c__table th,.w3c__table td{padding:9px 10px;border-bottom:1px solid rgba(10,10,10,.14);text-align:left;vertical-align:top}
+.w3c__table thead th{font:600 12px var(--en);letter-spacing:.06em;color:var(--soft)}
+.w3c__table tbody th{font:600 13px/1.5 ui-monospace,Consolas,monospace;overflow-wrap:anywhere}
+.w3c__table td,.w3c__table thead th{white-space:nowrap}
+.w3c__table td:last-child{font-weight:700}
+.w3c__sub{margin-top:24px;font:700 15px var(--kr)}
+.w3c__fix{margin-top:8px;border-top:1.5px solid var(--ink)}
+.w3c__fix li{display:grid;grid-template-columns:120px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid rgba(10,10,10,.14);font:400 14px/1.7 var(--kr);word-break:keep-all}
+.w3c__fix code{padding:1px 5px;background:rgba(127,127,127,.15);font:500 .9em ui-monospace,Consolas,monospace;word-break:break-all}
+.w3c__shots{margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.w3c__shots img{width:100%;height:auto;border:1px solid rgba(10,10,10,.14)}
+.w3c__shots figcaption{margin-top:6px;font:500 12px var(--kr);color:var(--soft)}
+.w3c__live{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px 14px;font:600 14px var(--kr)}
+.w3c__live a{border-bottom:1.5px solid var(--ink)}
+
+/* ================= 반응형 ================= */
+@media (max-width:1100px){
+  .pj__board{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pcard,.pcard:nth-child(4){grid-column:auto}
+  .pcard:nth-child(2),.pcard:nth-child(5){margin-top:0}
+  .pcard:nth-child(2n){margin-top:clamp(30px,5vw,56px)}
+  .notes ol{grid-template-columns:1fr}
+}
+/* 엽서 : 주소 칸이 좁아져 글자가 너무 작아지기 전에 위아래로 */
+@media (max-width:1000px){
+  .postcard{grid-template-columns:1fr}
+  .postcard__addr{border-left:0;padding-left:0;border-top:1.5px solid rgba(10,10,10,.18);padding-top:28px}
+  .cts__links b{font-size:18px}
+}
+@media (max-width:860px){
+  .diary{grid-template-columns:1fr}
+  .diary::after{display:none}
+  .diary__page--l{padding-bottom:12px}
+  .notes ol{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (max-width:720px){
+  .nav{position:fixed;right:var(--pad);top:56px;flex-direction:column;align-items:flex-end;gap:2px;padding:10px 14px;background:var(--paper);box-shadow:0 8px 20px rgba(70,50,20,.12);opacity:0;pointer-events:none;transform:translateY(-6px);transition:.25s}
+  .nav.open{opacity:1;pointer-events:auto;transform:none}
+  .nav a{padding:8px 0}
+  .nav-toggle{display:block;background:none;border:0;padding:6px 0;font:700 13px/1 var(--en);letter-spacing:.14em;cursor:pointer}
+  .hero__title{width:114vw}
+  .hero__center{--w:min(38vw,26svh)}
+  .sec-head{flex-wrap:wrap}
+  .memo{margin:4px 0 0}
+  .notes ol{grid-template-columns:1fr}
+  .diary__info>div{grid-template-columns:84px 1fr}
+  .w3c__sum,.w3c__shots{grid-template-columns:1fr}
+  .w3c__fix li{grid-template-columns:1fr;gap:2px}
+}
+@media (max-width:640px){
+  .pj__board{grid-template-columns:1fr;gap:64px}
+  .pcard:nth-child(2n){margin-top:0}
+  .pcard{max-width:480px;width:100%;justify-self:center}
+  /* 휴대폰 : 라벨을 주소 위로 올려 주소 칸을 넓게 (주소는 그대로 한 줄) */
+  .cts__links a{grid-template-columns:1fr auto;gap:4px 8px;padding:12px 4px}
+  .cts__links span{grid-column:1/-1}
+  .cts__links b{font-size:clamp(10px,calc(6vw - 8.5px),18px)}
+}
+
+/* ================= 움직임 줄이기 : 완성된 화면 바로 ================= */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .hero__title,.pstamp,.hero .seal,.hero__copy,.hero__hint,.hero__stage{opacity:1!important;animation:none!important}
+  .hero__hint i{animation:none}
+  .reveal,.pcard.reveal .pcard__stamp,.pcard.reveal .pcard__info,.diary.reveal .diary__photo,.diary.reveal .note,.skl__group .sticker{opacity:1;translate:0 0;scale:1;transition:none}
+  .reveal{transform:none}
+  .pcard.reveal .pcard__stamp{transform:rotate(var(--r))}
+  .diary.reveal .diary__photo{transform:rotate(-3deg)}
+  .postcard.reveal{transform:rotate(-.5deg)}
+  .pcard__stamp,.pcard__meta i,.nav a::after,.note,.sticker,.sticker p,.skl__bar,.skl__bar i::after,.cts__links i,.w3c[open]{transition:none;animation:none}
+}

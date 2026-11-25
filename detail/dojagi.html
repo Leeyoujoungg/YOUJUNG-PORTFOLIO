@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>도자기 — YOUJUNG PORTFOLIO</title>
+  <meta name="description" content="한국 전통 도자기를 소개하는 React 기반 웹사이트, 도자기">
+  <link rel="icon" href="../assets/favicon.svg?v=3" type="image/svg+xml">
+  <link rel="icon" href="../assets/favicon-64.png?v=3" type="image/png" sizes="64x64">
+  <link rel="shortcut icon" href="../assets/favicon.ico?v=3">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png?v=3">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="../css/dakku.css?v=14">
+  <link rel="stylesheet" href="../css/detail.css?v=20261125f">
+</head>
+<body class="scrolled detail">
+  <a class="skip" href="#main">본문 바로가기</a>
+
+  <header class="top top--detail">
+    <a class="top__home" href="../index.html" aria-label="YOJG, 메인으로 이동">YOJG</a>
+    <nav class="nav" aria-label="메인 메뉴">
+      <a href="../index.html#projects">← PROJECTS</a>
+    </nav>
+  </header>
+
+  <main class="dt" id="main" tabindex="-1">
+    <header class="dt__hero">
+      <p class="dt__meta">WEB / EDITORIAL · 1인 프로젝트 · 2026.05 ~ 2026.06</p>
+      <h1>도자기</h1>
+      <p class="dt__lead">한국 전통 도자기를 소개하는 React 기반 웹사이트</p>
+    </header>
+
+    <figure class="dt__shot"><img src="../assets/p-dojagi.webp" alt="도자기 웹사이트 메인 화면" width="1285" height="723"></figure>
+
+    <section class="dt__sec pc__step">
+      <div class="pc__head"><b>01</b></div>
+      <div class="pc__body">
+        <h2 class="pc__title">OVERVIEW</h2>
+        <p>백자·청자·분청사기 등 도자기의 역사, 종류, 제작, 관리 방법을 페이지별로 풀어낸 가이드 사이트입니다. 따뜻한 크림/베이지 톤과 큰 한자 타이포(陶瓷器) 위주로 디자인했습니다.</p>
+        <a class="btn btn--fill dt__visit" href="https://leeyoujoungg.github.io/yujung.github.io/" target="_blank" rel="noopener">사이트 방문하기 ↗</a>
+      </div>
+      <dl class="dt__info pc__span">
+        <div><dt>ROLE</dt><dd>기획 · 디자인 · 개발 (1인)</dd></div>
+        <div><dt>TEAM</dt><dd>1인 프로젝트</dd></div>
+        <div><dt>PERIOD</dt><dd>2026.05 ~ 2026.06</dd></div>
+        <div><dt>STACK</dt><dd>React · HTML · CSS · JavaScript · Illustrator · Figma</dd></div>
+      </dl>
+      <div class="kn pc__span">
+        <div class="kn__head"><h3>KNOWLEDGE</h3><p>이 프로젝트에 쓴 지식</p></div>
+        <ul class="kn__list">
+          <li><span class="kn__tag">DESIGN</span><h4>톤 앤 매너 · 타이포그래피</h4><p>도자기의 흙빛을 크림·베이지 톤으로, 전통의 느낌을 큰 한자 타이포(陶瓷器)로 표현해 Figma로 화면 설계</p></li>
+          <li><span class="kn__tag">BUILD</span><h4>React 상태와 생명주기</h4><p><code>useState</code>로 페이지를 전환하고, <code>useEffect</code>의 정리 함수로 페이지가 바뀔 때 스크롤 이벤트를 해제</p></li>
+          <li><span class="kn__tag">CONNECT</span><h4>하나의 상태로 여러 탐색 연결</h4><p>스크롤 · 사이드바 · 화살표 버튼이 같은 "현재 시대" 값을 공유하게 만들어, 어떤 방법으로 이동해도 화면 표시가 일치</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="dt__sec">
+      <ol class="pc">
+        <li class="pc__step">
+          <div class="pc__head"><b>02</b></div>
+          <div class="pc__body">
+            <h3>FEATURES</h3>
+            <ol class="pc__refs">
+              <li><h4>페이지 구성</h4><p>Main, History, Type, Explore, Making, Care (useState 기반 페이지 전환)</p></li>
+              <li><h4>인터랙션</h4><p>시대별 풀스크린 스크롤, 카드 클릭 시 모달 + 이미지 슬라이드, 탭 전환</p></li>
+              <li><h4>디자인 → 개발</h4><p>Figma/Illustrator로 비주얼 설계 후 React로 구현</p></li>
+            </ol>
+          </div>
+        </li>
+
+        <li class="pc__step">
+          <div class="pc__head"><b>03</b></div>
+          <div class="pc__body">
+            <h3>DEV</h3>
+            <p>HTML, CSS, JavaScript와 함께 React로 컴포넌트 기반 UI를 만들며, 각 기술이 어떤 기능에 필요한지 고민하고 활용 범위를 넓혔습니다.</p>
+          </div>
+        </li>
+
+        <li class="pc__step">
+          <div class="pc__head"><b>04</b></div>
+          <div class="pc__body">
+            <h3>TROUBLE SHOOTING</h3>
+
+            <h4 class="pc__issue">시대별 스크롤과 사이드바 표시가 어긋나는 문제</h4>
+            <div class="pc__ba">
+              <div><em>문제</em><p>스크롤, 사이드바 클릭, 화살표 버튼으로 이동할 때 현재 시대 표시가 서로 달랐습니다.</p></div>
+              <div><em>해결</em><p>스크롤할 때 각 시대 섹션의 위치(<code>getBoundingClientRect</code>)를 계산해 현재 시대 값을 갱신하고, 세 가지 이동 방식이 같은 값을 공유하도록 맞췄습니다.</p></div>
+            </div>
+            <figure class="pc__code">
+              <figcaption>KEY CODE <span>History 페이지 · 현재 시대 계산</span></figcaption>
+<pre tabindex="0"><code><span class="k">useEffect</span>(() =&gt; {
+    const onScroll = () =&gt; {
+        eras.forEach((era, i) =&gt; {
+            const el = document.getElementById(era.id);
+            if (!el) return;
+            const { top } = el.<span class="k">getBoundingClientRect</span>();
+            <span class="c">// 섹션 윗부분이 화면 위쪽 절반 안에 들어오면 그 시대를 현재 시대로</span>
+            if (top &gt;= 0 &amp;&amp; top &lt;= window.innerHeight / 2) setCurrentEra(i);
+        });
+    };
+    window.addEventListener('scroll', onScroll);
+    return () =&gt; window.removeEventListener('scroll', onScroll); <span class="c">// 페이지를 떠나면 이벤트 해제</span>
+}, []);</code></pre>
+            </figure>
+            <ul class="pc__code-note">
+              <li>스크롤, 사이드바 클릭, 화살표 버튼 모두 결국 스크롤을 움직이므로, 현재 시대 값은 이 한 곳에서만 정합니다. 그래서 세 방식의 표시가 어긋나지 않습니다.</li>
+              <li>정리 함수(<code>return</code>)로 페이지가 바뀔 때 스크롤 이벤트를 해제해 이벤트가 쌓이지 않게 했습니다.</li>
+              <li>GitHub에는 빌드된 파일만 있어, 같은 로직을 변수 이름만 읽기 쉽게 바꿔 옮겼습니다.</li>
+            </ul>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <footer class="dt__foot">
+      <a class="btn btn--fill" href="../index.html#projects">← 프로젝트 목록으로</a>
+      <a class="dt__next" href="thailand.html"><span>NEXT PROJECT →</span><b>Thailand</b></a>
+    </footer>
+  </main>
+</body>
+</html>
